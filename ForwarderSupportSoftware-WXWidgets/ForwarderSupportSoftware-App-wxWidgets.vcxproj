@@ -98,7 +98,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="resource1.h" />
     <ClInclude Include="src\NewWindow.h" />
     <ClInclude Include="src\ImagePanel.h" />
     <ClInclude Include="src\AddCopiedStringWindow.h" />
@@ -124,10 +123,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="src\background.xpm" />
-    <None Include="src\icon.xpm" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="ForwarderSupportSoftware-App-wxWidgets.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -2,3 +2,6 @@
 .vscode
 bin
 Makefile
+
+3rdparty/wxWidgets/include
+3rdparty/wxWidgets/lib
