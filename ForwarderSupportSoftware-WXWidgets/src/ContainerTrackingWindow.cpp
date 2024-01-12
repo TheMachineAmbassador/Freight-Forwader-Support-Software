@@ -7,7 +7,7 @@ ContainerTrackingWindow::ContainerTrackingWindow(wxWindow* parent) : wxDialog(pa
     
     // Input text setup
     containerNumberCtrl = new wxTextCtrl(this, wxID_ANY);
-    trackButton = new wxButton(this, wxID_ANY, "Takip Et");
+    trackButton = new wxButton(this, wxID_ANY, "Track");
 
     // Static text for output
     containerNumText = new wxStaticText(this, wxID_ANY, "");
@@ -58,9 +58,9 @@ void ContainerTrackingWindow::onButtonClick(wxCommandEvent& event)
 
     // Update text fields with information
     common->requestContainerData(contData);
-    containerNumText->SetLabel("Konteyner Numaras�: " + contData);
-    statusText->SetLabel("Durumu: " + static_cast<wxString>(common->getStatusDescription().c_str()));
-    locationText->SetLabel("Konumu: " + static_cast<wxString>(common->getLocation().c_str()));
-    timeOfIssueText->SetLabel("Time of Issue (Ne old�unu bilmiyorum...): " + static_cast<wxString>(common->getTimeOfIssue().c_str()));
+    containerNumText->SetLabel("Container Number: " + contData);
+    statusText->SetLabel("Status: " + static_cast<wxString>(common->getStatusDescription().c_str()));
+    locationText->SetLabel("Location: " + static_cast<wxString>(common->getLocation().c_str()));
+    timeOfIssueText->SetLabel("Time of Issue: " + static_cast<wxString>(common->getTimeOfIssue().c_str()));
     etaText->SetLabel("ETA: " + static_cast<wxString>(common->getPodEta().c_str()));
 }

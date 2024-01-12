@@ -94,8 +94,8 @@ FreightCalculateWindow::FreightCalculateWindow(wxWindow* parent) : wxFrame(paren
 
     wxBoxSizer* hbox66 = new wxBoxSizer(wxHORIZONTAL);
     // Add items to the combo box
-    freightCmboBox->Append("Deniz");
-    freightCmboBox->Append("Hava");
+    freightCmboBox->Append("Sealine");
+    freightCmboBox->Append("Airway");
     //freightCmboBox->Append("Kara");
     // Set the default selection (optional)
     freightCmboBox->SetSelection(0); // Select "Deniz" as the default item
