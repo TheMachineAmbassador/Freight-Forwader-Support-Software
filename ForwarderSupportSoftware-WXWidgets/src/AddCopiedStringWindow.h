@@ -16,7 +16,7 @@ public:
     
 private:
     wxTextCtrl* textCtrl;
-    wxStaticText* resultText;
+    wxTextCtrl* resultText;
 
     void OnTextChanged(wxCommandEvent& event);
 };

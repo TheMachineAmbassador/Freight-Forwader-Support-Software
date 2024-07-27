@@ -50,10 +50,12 @@ MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title, 
 
     /////////////////////////////////////////////////////////////////////////////////////
     // Create an ImagePanel and add it to the frame
-    ImagePanel* imagePanel = new ImagePanel(this);
-    wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
-    sizer->Add(imagePanel, 1, wxEXPAND | wxALL);
-    SetSizer(sizer);
+    #ifndef DEBUG
+        ImagePanel* imagePanel = new ImagePanel(this);
+        wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
+        sizer->Add(imagePanel, 1, wxEXPAND | wxALL);
+        SetSizer(sizer);
+    #endif // DEBUG
     ////////////////////////////////////////////////////////////////////////////////////
 
     AdjustFontForDPI(this);

@@ -1,15 +1,16 @@
 #include "AddCopiedStringWindow.h"
 
-AddCopiedStringWindow::AddCopiedStringWindow(wxWindow* parent) : wxDialog(parent, wxID_ANY, "Add Copied String", wxDefaultPosition, wxSize(600, 450)) {
+AddCopiedStringWindow::AddCopiedStringWindow(wxWindow* parent)
+    : wxDialog(parent, wxID_ANY, "Add Copied String", wxDefaultPosition, wxSize(600, 450)) {
     // Create fields
-    textCtrl = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxSize(0,100), wxTE_MULTILINE);
-    resultText = new wxStaticText(this, wxID_ANY, "");
+    textCtrl = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxSize(0, 100), wxTE_MULTILINE);
+    resultText = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE | wxTE_READONLY  | wxBORDER_NONE);
 
-    // set Vertical Box Sizer for the pozitining event types
+    // Set Vertical Box Sizer for positioning elements
     wxBoxSizer* vbox = new wxBoxSizer(wxVERTICAL);
     vbox->Add(textCtrl, 0, wxEXPAND | wxALL, 5);
-    vbox->Add(resultText, 0, wxEXPAND | wxALL, 5);
-    
+    vbox->Add(resultText, 1, wxEXPAND | wxALL, 5);
+
     // Set sizer    
     this->SetSizer(vbox);
 
@@ -23,12 +24,10 @@ void AddCopiedStringWindow::OnTextChanged(wxCommandEvent& event) {
     // Use strncpy to copy the text to inputBuffer
     wxString textFromControl = textCtrl->GetValue();
 
-    strncpy(add.inputBuffer, textFromControl.mb_str(wxConvUTF8), 1024 - 1);
+    strncpy(add.inputBuffer, textFromControl.mb_str(wxConvUTF8), sizeof(add.inputBuffer) - 1);
 
     add.addCopiedTexts();
     wxString DATA(add.resultStr.c_str(), wxConvUTF8);
 
-    resultText->SetLabelText(DATA);
+    resultText->SetValue(DATA);
 }
-
-

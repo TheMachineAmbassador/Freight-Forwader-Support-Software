@@ -17,7 +17,7 @@ private:
 
 	
 public:
-    char inputBuffer[1024];
+    char inputBuffer[4096];
 
     // Public member funcs
     void addCopiedTexts();

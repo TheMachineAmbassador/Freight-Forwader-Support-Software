@@ -5,8 +5,8 @@ EVT_PAINT(ImagePanel::OnPaint)
 EVT_SIZE(ImagePanel::OnSize)
 wxEND_EVENT_TABLE()
 
-ImagePanel::ImagePanel(wxFrame* parent) : wxPanel(parent), originalImage(_695996ec29b42e285807af8aa51efc8rTzx3Jxt2VraL68a) {
-    RescaleImage(GetClientSize()); // Initial scaling
+ImagePanel::ImagePanel(wxFrame* parent) : wxPanel(parent), originalImage(d2e5e1d938844846c1a0711d0b58e01bpL0jCD07kggAOWzH) {
+    //RescaleImage(GetClientSize()); // Initial scaling
 }
 
 

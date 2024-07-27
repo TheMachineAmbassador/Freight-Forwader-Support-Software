@@ -100,10 +100,11 @@ FreightCalculateWindow::FreightCalculateWindow(wxWindow* parent) : wxFrame(paren
     freightCmboBox->Append("Airway");
     freightCmboBox->Append("Land");
 
-    //freightCmboBox->Append("Kara");
-    // Set the default selection (optional)
+    // Set the default selection
     freightCmboBox->SetSelection(0); // Select "Deniz" as the default item
+
     hbox66->Add(freightCmboBox, 1, wxEXPAND | wxALL,5);
+
     // Bind the event handler to EVT_COMBOBOX
     freightCmboBox->Bind(wxEVT_COMBOBOX, &FreightCalculateWindow::OnComboBoxChange, this);
 
