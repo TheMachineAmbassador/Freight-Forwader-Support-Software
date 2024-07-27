@@ -9,19 +9,19 @@
 #include "AirCargoBase.h"
 #include "TruckFreightCore.h"
 
+static const int ID_AlwaysOnTop = 10001; // Custom ID for the menu item
+
 class FreightCalculateWindow : public wxFrame
 {
 private:
-    enum option
-    {
-        Deniz = 0, Hava, Kara, MAX
-    };
-    
-    static const int ID_AlwaysOnTop = 10001; // Custom ID for the menu item
-
     ForwarderSupportWare::SeaCargoBase sea{};
     ForwarderSupportWare::AirCargoBase air{};
     TruckFreightCore high{};
+
+    enum option
+    {
+        Deniz = 0, Hava, Kara, MAX
+    };    
 
     ForwarderSupportWare::CargoDetails* Cargo = &sea;
 

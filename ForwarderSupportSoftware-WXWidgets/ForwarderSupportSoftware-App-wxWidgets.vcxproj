@@ -98,7 +98,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\NewWindow.h" />
     <ClInclude Include="src\ImagePanel.h" />
     <ClInclude Include="src\AddCopiedStringWindow.h" />
     <ClInclude Include="src\ContainerTrackingWindow.h" />
@@ -107,7 +106,6 @@
     <ClInclude Include="src\MainFrame.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\NewWindow.cpp" />
     <ClCompile Include="src\ImagePanel.cpp" />
     <ClCompile Include="src\AddCopiedStringWindow.cpp" />
     <ClCompile Include="src\ContainerTrackingWindow.cpp" />

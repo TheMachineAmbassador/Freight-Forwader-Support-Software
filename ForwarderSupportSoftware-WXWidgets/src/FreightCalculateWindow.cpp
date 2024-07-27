@@ -34,10 +34,6 @@ float GetTextCtrlValueAsInt(wxTextCtrl*& textCtrl) {
     }
 }
 
-ForwarderSupportWare::SeaCargoBase sea{};
-ForwarderSupportWare::AirCargoBase air{};
-TruckFreightCore high{};
-
 FreightCalculateWindow::FreightCalculateWindow(wxWindow* parent) : wxFrame(parent, wxID_ANY, "Freight Calculation Window", wxDefaultPosition, wxSize(370 ,500),wxMINIMIZE_BOX | wxSYSTEM_MENU | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN | wxDEFAULT_FRAME_STYLE) {
     wxSize fixedSize = wxSize(370, 500);
     this->SetSize(fixedSize);
@@ -144,12 +140,6 @@ FreightCalculateWindow::FreightCalculateWindow(wxWindow* parent) : wxFrame(paren
 
     // Add stacableCheckbox under the Weight controls
     vbox->Add(stacableCheckbox, 0, wxEXPAND | wxALL, 5);
-
-
-    
-    //wxBoxSizer* hbox6 = new wxBoxSizer(wxHORIZONTAL);
-    //stacableCheckbox = new wxCheckBox(this, wxID_ANY, "Stackable", wxDefaultPosition, wxDefaultSize);
-    //hbox6->Add(stacableCheckbox, 0, wxALL, 5);
 
     // Create a horizontal box sizer
     wxBoxSizer* hbox = new wxBoxSizer(wxHORIZONTAL);
@@ -288,7 +278,7 @@ wxString FreightCalculateWindow::OutputPanel()
     case Hava:
         Cargo = &air;
         output += wxString::Format("Volumetric weight: %.3f\n", air.getVolumeWeight());
-        output += wxString::Format("Chargable weight: %.3f\n", air.getChargableWeight());
+        output += wxString::Format("Chargable weight: %.3f\n\n", air.getChargableWeight());
         break;
     case Kara:
         Cargo = &high;
@@ -297,7 +287,7 @@ wxString FreightCalculateWindow::OutputPanel()
         else
             high.isStackable = false;
 
-        output += wxString::Format("LDM: %.3f", high.getLDM());
+        output += wxString::Format("LDM: %.3f \n\n\n", high.getLDM());
         break;
     default:
         break;

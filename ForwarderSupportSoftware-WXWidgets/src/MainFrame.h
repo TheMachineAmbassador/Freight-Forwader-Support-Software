@@ -7,11 +7,6 @@
 #endif
 #include <wx/webrequest.h>
 
-#include "AddCopiedStringWindow.h" 
-#include "CustomCalculatorWindow.h" 
-#include "ContainerTrackingWindow.h"
-#include "FreightCalculateWindow.h" 
-
 class MainFrame: public wxFrame {
 private:
     void OnOpenFreightCalculation(wxCommandEvent& event);

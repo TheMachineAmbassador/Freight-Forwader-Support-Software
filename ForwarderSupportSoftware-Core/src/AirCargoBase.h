@@ -9,8 +9,6 @@
 
 #include "CommonCargoDetails.h"
 
-#include "types_and_defs.h"
-
 namespace ForwarderSupportWare
 {
 	class AirCargoBase : public CargoDetails
