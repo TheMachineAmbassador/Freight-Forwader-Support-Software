@@ -25,7 +25,8 @@ private:
 
     ForwarderSupportWare::CargoDetails* Cargo = &sea;
 
-    std::string output;
+    //std::string output;
+    wxString output;
 
     wxTextCtrl* pieceCtrl;
     wxTextCtrl* lengthCtrl;
@@ -43,7 +44,11 @@ private:
     wxComboBox* heightCmbBox;
     wxComboBox* lenthCmboBox;
     wxComboBox* freightCmboBox = new wxComboBox(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);;
+    
+    wxCheckBox* stacableCheckbox;
+    wxBoxSizer* vbox;
 
+    bool showStackable = true;
     float weightBuff;
 
 public:
@@ -51,12 +56,12 @@ public:
     // Add other methods specific to TabOnePanel
 
 private:
-    std::string OutputPanel();
+    wxString OutputPanel();
     
     void OnCalculateButton(wxCommandEvent& event);
     void OnResetButton(wxCommandEvent& event);
     void OnCopyButton(wxCommandEvent& event);
-    void UpdateOutput(std::string& output);
+    void UpdateOutput(wxString& output);
     void OnComboBoxChange(wxCommandEvent& event);
     void OnWeightTextChange(wxCommandEvent& event);
     void OnToggleAlwaysOnTop(wxCommandEvent& event);

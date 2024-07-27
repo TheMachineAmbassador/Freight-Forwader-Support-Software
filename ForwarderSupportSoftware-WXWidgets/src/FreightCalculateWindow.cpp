@@ -1,6 +1,6 @@
 #include "FreightCalculateWindow.h"
 
-#include <format>
+#include "wx/clipbrd.h"
 
 float GetTextCtrlValueAsFloat(wxTextCtrl* &textCtrl) {
     wxString textValue = textCtrl->GetValue();
@@ -38,17 +38,17 @@ ForwarderSupportWare::SeaCargoBase sea{};
 ForwarderSupportWare::AirCargoBase air{};
 TruckFreightCore high{};
 
-FreightCalculateWindow::FreightCalculateWindow(wxWindow* parent) : wxFrame(parent, wxID_ANY, "Freight Calculation Window", wxDefaultPosition, wxSize(350 ,450),wxMINIMIZE_BOX | wxSYSTEM_MENU | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN | wxDEFAULT_FRAME_STYLE) {
-    wxSize fixedSize = wxSize(350, 450);
+FreightCalculateWindow::FreightCalculateWindow(wxWindow* parent) : wxFrame(parent, wxID_ANY, "Freight Calculation Window", wxDefaultPosition, wxSize(370 ,500),wxMINIMIZE_BOX | wxSYSTEM_MENU | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN | wxDEFAULT_FRAME_STYLE) {
+    wxSize fixedSize = wxSize(370, 500);
     this->SetSize(fixedSize);
     this->SetMinSize(fixedSize);
     this->SetMaxSize(fixedSize);
     this->SetBackgroundColour(*wxWHITE);
 
     wxMenuBar* menuBar = new wxMenuBar;
-
     wxMenu* optionsMenu = new wxMenu;
 
+    
     // Add a checkable item for always-on-top feature
     optionsMenu->AppendCheckItem(ID_AlwaysOnTop, "Make window always on top");
 
@@ -65,9 +65,15 @@ FreightCalculateWindow::FreightCalculateWindow(wxWindow* parent) : wxFrame(paren
     SetMenuBar(menuBar);
 
     
-    panelText = new wxStaticText(this, wxID_ANY, wxString(OutputPanel().c_str(), wxConvUTF8));
+    panelText = new wxStaticText(this, wxID_ANY, OutputPanel());
 
     wxString choices[] = { "M", "CM", "MM","in" };
+
+    // Initialize stacableCheckbox
+    stacableCheckbox = new wxCheckBox(this, wxID_ANY, "Stackable", wxDefaultPosition, wxDefaultSize);
+
+    // Initially hide stacableCheckbox
+    //stacableCheckbox->Hide();
 
     widthCmbBox = new wxComboBox(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 4, choices, wxCB_READONLY);
     widthCmbBox->SetSelection(1);
@@ -76,18 +82,18 @@ FreightCalculateWindow::FreightCalculateWindow(wxWindow* parent) : wxFrame(paren
     lenthCmboBox = new wxComboBox(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 4, choices, wxCB_READONLY);
     lenthCmboBox->SetSelection(1);
 
-    pieceCtrl = new wxTextCtrl(this, wxID_ANY);;
-    lengthCtrl = new wxTextCtrl(this, wxID_ANY);;
-    widthCtrl = new wxTextCtrl(this, wxID_ANY);;
-    heightCtrl = new wxTextCtrl(this, wxID_ANY);;
-    weightCtrl = new wxTextCtrl(this, wxID_ANY);;
+    pieceCtrl = new wxTextCtrl(this, wxID_ANY);
+    lengthCtrl = new wxTextCtrl(this, wxID_ANY);
+    widthCtrl = new wxTextCtrl(this, wxID_ANY);
+    heightCtrl = new wxTextCtrl(this, wxID_ANY);
+    weightCtrl = new wxTextCtrl(this, wxID_ANY);
 
     calculateBtn = new wxButton(this, wxID_ANY, "Update");;
     resetBtn = new wxButton(this, wxID_ANY, "Reset/Clear");;
     copyDataBtn = new wxButton(this, wxID_ANY, "Copy Data");;
 
     // Layout using sizers
-    wxBoxSizer* vbox = new wxBoxSizer(wxVERTICAL);
+    vbox = new wxBoxSizer(wxVERTICAL);
 
     // Add the menu bar to the sizer
     vbox->Add(panelText, 0, wxEXPAND | wxALL, 5);
@@ -96,6 +102,8 @@ FreightCalculateWindow::FreightCalculateWindow(wxWindow* parent) : wxFrame(paren
     // Add items to the combo box
     freightCmboBox->Append("Sealine");
     freightCmboBox->Append("Airway");
+    freightCmboBox->Append("Land");
+
     //freightCmboBox->Append("Kara");
     // Set the default selection (optional)
     freightCmboBox->SetSelection(0); // Select "Deniz" as the default item
@@ -133,6 +141,15 @@ FreightCalculateWindow::FreightCalculateWindow(wxWindow* parent) : wxFrame(paren
     hbox5->Add(new wxStaticText(this, wxID_ANY, "Weight:   "), 0, wxEXPAND | wxALL, 5);
     hbox5->Add(weightCtrl, 1, wxEXPAND | wxALL, 5);
     vbox->Add(hbox5, 0, wxEXPAND | wxALL, 5);
+
+    // Add stacableCheckbox under the Weight controls
+    vbox->Add(stacableCheckbox, 0, wxEXPAND | wxALL, 5);
+
+
+    
+    //wxBoxSizer* hbox6 = new wxBoxSizer(wxHORIZONTAL);
+    //stacableCheckbox = new wxCheckBox(this, wxID_ANY, "Stackable", wxDefaultPosition, wxDefaultSize);
+    //hbox6->Add(stacableCheckbox, 0, wxALL, 5);
 
     // Create a horizontal box sizer
     wxBoxSizer* hbox = new wxBoxSizer(wxHORIZONTAL);
@@ -187,28 +204,44 @@ void FreightCalculateWindow::OnCalculateButton(wxCommandEvent& event)
 
     switch (index)
     {
-    case Deniz:
-        selectedIndex = widthCmbBox->GetSelection();
-        convertToMeters(stuff.x, selectedIndex);
+        case Deniz:
+            selectedIndex = lenthCmboBox->GetSelection();
+            convertToMeters(stuff.x, lenthCmboBox->GetSelection());
 
-        selectedIndex = heightCmbBox->GetSelection();
-        convertToMeters(stuff.y, selectedIndex);
+            selectedIndex = widthCmbBox->GetSelection();
+            convertToMeters(stuff.y, selectedIndex);
 
-        selectedIndex = lenthCmboBox->GetSelection();
-        convertToMeters(stuff.z, lenthCmboBox->GetSelection());
+            if (stacableCheckbox->IsChecked())
+                stuff.z = 265;
 
-        sea.setWeightLBS(Cargo->getWeightKG());
-        break;
-    case Hava:
-    case Kara:
-        selectedIndex = widthCmbBox->GetSelection();
-        convertToCentimeters(stuff.x, selectedIndex);
+            selectedIndex = heightCmbBox->GetSelection();
+            convertToMeters(stuff.z, selectedIndex);
 
-        selectedIndex = heightCmbBox->GetSelection();
-        convertToCentimeters(stuff.y, selectedIndex);
+            sea.setWeightLBS(Cargo->getWeightKG());
+            break;
+        case Hava:
+            selectedIndex = lenthCmboBox->GetSelection();
+            convertToCentimeters(stuff.x, selectedIndex);
 
-        selectedIndex = lenthCmboBox->GetSelection();
-        convertToCentimeters(stuff.z, selectedIndex);
+            selectedIndex = widthCmbBox->GetSelection();
+            convertToCentimeters(stuff.y, selectedIndex);
+
+            selectedIndex = heightCmbBox->GetSelection();
+            convertToCentimeters(stuff.z, selectedIndex);
+
+            break;
+        case Kara:
+            selectedIndex = lenthCmboBox->GetSelection();
+            convertToCentimeters(stuff.x, selectedIndex);
+
+            selectedIndex = widthCmbBox->GetSelection();
+            convertToCentimeters(stuff.y, selectedIndex);
+
+            selectedIndex = heightCmbBox->GetSelection();
+            convertToCentimeters(stuff.z, selectedIndex);
+
+
+            break;
     default:
         assert("I hope no one arrive it here");
         break;
@@ -216,17 +249,24 @@ void FreightCalculateWindow::OnCalculateButton(wxCommandEvent& event)
     
     Cargo->pushValueToOzelliker(stuff, GetTextCtrlValueAsInt(pieceCtrl));
     
+    // Layout adjustment after showing or hiding controls
+    Layout();
+    Refresh();
+
+    // Update output or other relevant logic based on the combo box selection
+    OutputPanel();
     UpdateOutput(output);
 }
 
-std::string FreightCalculateWindow::OutputPanel()
+wxString FreightCalculateWindow::OutputPanel()
 {
     weightBuff = Cargo->getWeightKG();
 
     const float tonnage = weightBuff / 1000.0f;
 
-    output =  std::format("Pieces: {}\n", std::to_string(Cargo->getPieces()));
-    output += std::format("Weight: {0:.3f} KG / {1:.3f} Ton\n", weightBuff, tonnage);
+    output =  wxString::Format("Pieces: %d\n", Cargo->getPieces());
+    output += wxString::Format("Weight: %.3f KG / %.3f Ton\n", Cargo->getWeightKG(), tonnage);
+
 
     int index = 0;
     if (freightCmboBox->GetSelection() == -1)
@@ -240,19 +280,24 @@ std::string FreightCalculateWindow::OutputPanel()
     {
     case Deniz:
         Cargo = &sea;
-        output += std::format("Volume: (CBM): {0:.3f}\n", sea.getVolume());
-        output += std::format("Weight: (LBS/Pound): {0:.3f} LBS\n", sea.getWeightLbs());
-        output += std::format("Volume: (CBF): {0:.3f}\n", sea.getVolumeCBF());
-        output += std::format("W/M: {0:.3f}", sea.getWMValue());
+        output += wxString::Format("Volume (CBM): %.3f\n", sea.getVolume());
+        output += wxString::Format("Weight (LBS/Pound): %.3f LBS\n", sea.getWeightLbs());
+        output += wxString::Format("Volume (CBF): %.3f\n", sea.getVolumeCBF());
+        output += wxString::Format("W/M: %.3f", sea.getWMValue());
         break;
     case Hava:
         Cargo = &air;
-        output += std::format("Volumetric weight: {0:.3f}\n", air.getVolumeWeight());
-        output += std::format("Chargable weight: {0:.3f}\n", air.getChargableWeight());
+        output += wxString::Format("Volumetric weight: %.3f\n", air.getVolumeWeight());
+        output += wxString::Format("Chargable weight: %.3f\n", air.getChargableWeight());
         break;
     case Kara:
         Cargo = &high;
-        output += std::format("LDM: {0:.3f}", high.getLDM());
+        if (stacableCheckbox->IsChecked())
+            high.isStackable = true;
+        else
+            high.isStackable = false;
+
+        output += wxString::Format("LDM: %.3f", high.getLDM());
         break;
     default:
         break;
@@ -261,15 +306,31 @@ std::string FreightCalculateWindow::OutputPanel()
     return output;
 }
 
-void FreightCalculateWindow::UpdateOutput(std::string & output)
+void FreightCalculateWindow::UpdateOutput(wxString& output)
 {
-    wxString piecesStr(OutputPanel().c_str(), wxConvUTF8);
-    panelText->SetLabel(piecesStr);
+    panelText->SetLabel(OutputPanel());
 }
 
 void FreightCalculateWindow::OnCopyButton(wxCommandEvent& event)
 {
-    CopyClipboard(output);
+    // Get current output text
+    wxString outputText = OutputPanel();
+
+    // Open the clipboard
+    if (wxTheClipboard->Open())
+    {
+        // Clear the clipboard
+        wxTheClipboard->Clear();
+
+        // Create a text data object
+        wxTextDataObject textData(outputText);
+
+        // Set the data
+        wxTheClipboard->SetData(new wxTextDataObject(outputText));
+
+        // Close the clipboard
+        wxTheClipboard->Close();
+    }
 }
 
 void FreightCalculateWindow::OnResetButton(wxCommandEvent& event)
@@ -282,6 +343,21 @@ void FreightCalculateWindow::OnResetButton(wxCommandEvent& event)
 
 void FreightCalculateWindow::OnComboBoxChange(wxCommandEvent& event)
 {
+    int index = freightCmboBox->GetSelection();
+
+    // Show stacableCheckbox when Deniz or Hava is selected
+    if (index == Deniz || index == Kara) {
+        stacableCheckbox->Show();
+    }
+    else {
+        stacableCheckbox->Hide();
+    }
+
+    // Layout adjustment after showing or hiding stacableCheckbox
+    Layout();
+    Refresh();
+
+    // Update output or other relevant logic based on the combo box selection
     OutputPanel();
     UpdateOutput(output);
 }

@@ -9,6 +9,7 @@ ImagePanel::ImagePanel(wxFrame* parent) : wxPanel(parent), originalImage(_695996
     RescaleImage(GetClientSize()); // Initial scaling
 }
 
+
 void ImagePanel::OnPaint(wxPaintEvent& event) {
     wxPaintDC dc(this);
     if (resizedBitmap.IsOk()) {

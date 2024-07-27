@@ -19,9 +19,7 @@ private:
     void OnOpenCustomCalculator(wxCommandEvent& event);
     void OnOpenContainerTracking(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
-    void OnDemo(wxCommandEvent& event);
     void AdjustFontForDPI(wxWindow* window);
-    void OnWebRequestCompleted(wxWebRequestEvent& evt);
 public:
     MainFrame(const wxString& title);
 };

@@ -47,35 +47,3 @@ const void convertToCentimeters(float& value, int8_t unit) {
         value; break;
     }
 }
-
-
-void CopyClipboard(std::string& output)
-{
-    const size_t len = output.size() + 1;
-    HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, len);
-    if (hMem == NULL) {
-        DWORD dwError = GetLastError();
-        assert(dwError && "Memory cannot been allocated");
-        return;
-    }
-    char* pData = static_cast<char*>(GlobalLock(hMem));
-    if (pData != nullptr) {
-        memcpy(pData, output.c_str(), len);
-        GlobalUnlock(hMem);
-
-        if (OpenClipboard(0)) {
-            EmptyClipboard();
-            SetClipboardData(CF_TEXT, hMem);
-            CloseClipboard();
-            GlobalFree(hMem);
-        }
-        else {
-            assert("Couldnt open clipboard!");
-        }
-    }
-
-    else {
-        // Handle GlobalLock failure
-        GlobalFree(hMem);  // Release the memory
-    }
-}

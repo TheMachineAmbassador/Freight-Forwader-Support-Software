@@ -1,7 +1,4 @@
 #include "AddCopiedStringWindow.h"
-#include <AddCopiedString.h>
-
-AddCopiedString add;
 
 AddCopiedStringWindow::AddCopiedStringWindow(wxWindow* parent) : wxDialog(parent, wxID_ANY, "Add Copied String", wxDefaultPosition, wxSize(600, 450)) {
     // Create fields
@@ -13,7 +10,7 @@ AddCopiedStringWindow::AddCopiedStringWindow(wxWindow* parent) : wxDialog(parent
     vbox->Add(textCtrl, 0, wxEXPAND | wxALL, 5);
     vbox->Add(resultText, 0, wxEXPAND | wxALL, 5);
     
-    // Set sizer
+    // Set sizer    
     this->SetSizer(vbox);
 
     // Bind event handlers

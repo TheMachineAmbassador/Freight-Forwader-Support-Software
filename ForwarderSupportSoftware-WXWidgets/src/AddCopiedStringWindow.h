@@ -8,6 +8,9 @@
 
 
 class AddCopiedStringWindow : public wxDialog {
+private:
+    AddCopiedString add;
+
 public:
     AddCopiedStringWindow(wxWindow* parent);
     

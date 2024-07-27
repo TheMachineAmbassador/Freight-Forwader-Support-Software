@@ -2,9 +2,7 @@
 #define COMMONCARGODETAILS_H
 
 #include <vector>
-#include <string>
 
-#include <Windows.h>
 #include "types_and_defs.h"
 
 // TODO(Make commodity much usefull)

@@ -2,16 +2,15 @@
 #define TRUCKFREIGHTCORE_H
 
 #include "CommonCargoDetails.h"
-#include "types_and_defs.h"
 
 class TruckFreightCore : public ForwarderSupportWare::CargoDetails
 {
 private:
 	float ldm = 0;
 
-	bool isStackable = false;
 
 public:
+	bool isStackable = false;
 
 	float getLDM() const;
 
