@@ -98,6 +98,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Common.h" />
     <ClInclude Include="src\ImagePanel.h" />
     <ClInclude Include="src\AddCopiedStringWindow.h" />
     <ClInclude Include="src\ContainerTrackingWindow.h" />
@@ -118,9 +119,6 @@
     <ProjectReference Include="..\ForwarderSupportSoftware-Core\ForwarderSupportSoftware-Core.vcxproj">
       <Project>{6FE86950-DB00-517A-A4AD-E0131085E513}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="src\background.xpm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

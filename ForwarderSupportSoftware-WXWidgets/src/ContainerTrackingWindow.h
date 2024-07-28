@@ -10,24 +10,26 @@
 
 class ContainerTrackingWindow : public wxDialog
 {
-private:
-    wxTextCtrl* containerNumberCtrl;
-    wxButton* trackButton;
-    wxStaticText* containerNumText;
-    wxStaticText* statusText;
-    wxStaticText* locationText;
-    wxStaticText* timeOfIssueText;
-    wxStaticText* etaText;
-    wxComboBox* comboBox;
+    public:
+        ContainerTrackingWindow(wxWindow* parent);
+    private:
+        void onButtonClick(wxCommandEvent& event);
+    private:
+        wxTextCtrl* m_ContainerNumberCtrl;
 
-    CommonContProp* common = nullptr;
-    CoscoTracking cosco;
-    MSCContainer msc;
-public:
-    ContainerTrackingWindow(wxWindow* parent);
-private:
-    void onButtonClick(wxCommandEvent& event);
+        wxStaticText* m_ContainerNumText;
+        wxStaticText* m_StatusText;
+        wxStaticText* m_CurrentLocationText; // Where is containers current location
+        wxStaticText* m_TimeOfIssueText;
+        wxStaticText* m_ETAText; // ETA = Estimaded Time Arrival
 
+        wxComboBox* m_CarrierComboBox;
+
+        wxButton* m_TrackButton;
+
+        CommonContProp* m_Carrier = nullptr;
+        CoscoTracking m_Cosco;
+        MSCContainer m_MSC;
 };
 
-#endif
+#endif // CONTAINERTRACKINGWINDOW_H

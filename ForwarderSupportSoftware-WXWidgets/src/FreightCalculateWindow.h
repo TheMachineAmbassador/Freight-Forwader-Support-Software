@@ -13,60 +13,57 @@ static const int ID_AlwaysOnTop = 10001; // Custom ID for the menu item
 
 class FreightCalculateWindow : public wxFrame
 {
-private:
-    ForwarderSupportWare::SeaCargoBase sea{};
-    ForwarderSupportWare::AirCargoBase air{};
-    TruckFreightCore high{};
-
-    enum option
-    {
-        Deniz = 0, Hava, Kara, MAX
-    };    
-
-    ForwarderSupportWare::CargoDetails* Cargo = &sea;
-
-    //std::string output;
-    wxString output;
-
-    wxTextCtrl* pieceCtrl;
-    wxTextCtrl* lengthCtrl;
-    wxTextCtrl* widthCtrl;
-    wxTextCtrl* heightCtrl;
-    wxTextCtrl* weightCtrl;
-
-    wxButton* calculateBtn;
-    wxButton* resetBtn;
-    wxButton* copyDataBtn;
-
-    wxStaticText* panelText;
-
-    wxComboBox* widthCmbBox;
-    wxComboBox* heightCmbBox;
-    wxComboBox* lenthCmboBox;
-    wxComboBox* freightCmboBox = new wxComboBox(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);;
+    public:
+        FreightCalculateWindow(wxWindow* parent);
+    private:
+        wxString OutputPanel();
     
-    wxCheckBox* stacableCheckbox;
-    wxBoxSizer* vbox;
+        void OnCalculateButton(wxCommandEvent& event);
+        void OnResetButton(wxCommandEvent& event);
+        void OnCopyButton(wxCommandEvent& event);
+        void OnComboBoxChange(wxCommandEvent& event);
+        void OnWeightTextChange(wxCommandEvent& event);
+        void OnToggleAlwaysOnTop(wxCommandEvent& event);
 
-    bool showStackable = true;
-    float weightBuff;
+        void UpdateOutput();
+    private:
 
-public:
-    FreightCalculateWindow(wxWindow* parent);
-    // Add other methods specific to TabOnePanel
+        ForwarderSupportWare::SeaCargoBase m_SeaFreight{};
+        ForwarderSupportWare::AirCargoBase m_AirFreight{};
+        ForwarderSupportWare::TruckFreightCore m_LandFreight{};
 
-private:
-    wxString OutputPanel();
+        enum option
+        {
+            Deniz = 0, Hava, Kara, MAX
+        };    
+
+        ForwarderSupportWare::CargoDetails* m_CommonFreight = &m_SeaFreight;
+
+        wxString m_FreightOutputText = {};
+
+        wxTextCtrl* m_PieceCtrl;
+        wxTextCtrl* m_LengthCtrl;
+        wxTextCtrl* m_WidthCtrl;
+        wxTextCtrl* m_HeightCtrl;
+        wxTextCtrl* m_WeightCtrl;
+
+        wxButton* m_CalculateBtn;
+        wxButton* m_ResetBtn;
+        wxButton* m_CopyOutputBtn;
+
+        wxStaticText* m_PanelText;
+
+        wxComboBox* m_WidthCmbBox;
+        wxComboBox* m_HeightCmbBox;
+        wxComboBox* m_LengthCmbBox;
+        wxComboBox* m_FreightCmbBox = new wxComboBox(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);;
     
-    void OnCalculateButton(wxCommandEvent& event);
-    void OnResetButton(wxCommandEvent& event);
-    void OnCopyButton(wxCommandEvent& event);
-    void UpdateOutput(wxString& output);
-    void OnComboBoxChange(wxCommandEvent& event);
-    void OnWeightTextChange(wxCommandEvent& event);
-    void OnToggleAlwaysOnTop(wxCommandEvent& event);
+        wxCheckBox* m_StackableCheckbox;
+        wxBoxSizer* m_VBox;
 
-    // Add other member variables and methods
+        wxTextCtrl* m_ChildPanelText;
+
+        float m_Weight;
 };
 
-#endif
+#endif // FREIGHTCALCULATEWINDOW_H

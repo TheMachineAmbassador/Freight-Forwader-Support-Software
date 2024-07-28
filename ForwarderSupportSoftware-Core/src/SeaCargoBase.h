@@ -13,6 +13,7 @@ namespace ForwarderSupportWare
 		float weightLbs = 0;
 		float wmValue = 0;
 
+
 	public:
 		float getVolume() const;
 
@@ -27,7 +28,7 @@ namespace ForwarderSupportWare
 
 		float getWMValue();
 		
-		void calcSpecific() override
+		void OnCalculate() override
 		{
 			setVolumeCBM(SeaCBMCalc());
 			setVolumeCBF(SeaCBMCalc());
@@ -35,13 +36,16 @@ namespace ForwarderSupportWare
 
 		void Clear() override
 		{
-			clearOzellikler();
+			ClearDimensions();
 			setVolumeCBM(0);
 			setVolumeCBF(0);
 			SeaCBMCalc();
-			setWeightKG(0);
+			SetWeightKG(0);
 			setWeightLBS(0);
 		}
+	public:
+		bool m_Stackable;
+
 	};
 }
 #endif

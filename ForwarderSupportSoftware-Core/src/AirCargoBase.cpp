@@ -4,19 +4,19 @@ namespace ForwarderSupportWare
 {
     float AirCargoBase::getVolumeWeight() const
     {
-        return this->chargableWeight;
+        return this->m_ChargableWeight;
     }
 
     void AirCargoBase::setVolumeWeight(float volumeWeight)
     {
-        this->chargableWeight = volumeWeight;
+        this->m_ChargableWeight = volumeWeight;
     }
 
     void AirCargoBase::volumeWeightCalc()
     {
         float collector = 0;
 
-        for (auto& i : getOzelliker())
+        for (auto& i : GetDimensions())
         {
             collector = collector + ((i.x * i.y * i.z) / 6000);
         }
@@ -26,13 +26,13 @@ namespace ForwarderSupportWare
     float AirCargoBase::getChargableWeight() const
     {
         float chargableWeightHolder = 0;
-        if (getWeightKG() <= getVolumeWeight())
+        if (GetWeightKG() <= getVolumeWeight())
         {
             return getVolumeWeight();
         }
         else
         {
-            return getWeightKG();
+            return GetWeightKG();
         }
     }
 }

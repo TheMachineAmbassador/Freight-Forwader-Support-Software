@@ -7,19 +7,19 @@ namespace ForwarderSupportWare
 		return this->Commodity;
 	}*/
 
-	const int CargoDetails::getPieces() const
+	const int CargoDetails::GetPieces() const
 	{
-		return static_cast<int>(this->Ozellikler.size());
+		return static_cast<int>(this->m_Dimensions.size());
 	}
 
-	const float CargoDetails::getWeightKG() const 
+	const float CargoDetails::GetWeightKG() const 
 	{
-		return this->weightKG;
+		return this->m_WeightKG;
 	}
 
-	const std::vector<Vec3> CargoDetails::getOzelliker() const
+	const std::vector<Vec3> CargoDetails::GetDimensions() const
 	{
-		return this->Ozellikler;
+		return this->m_Dimensions;
 	}
 
 	//void CargoDetails::setCommodity(std::string Commodity)
@@ -27,22 +27,22 @@ namespace ForwarderSupportWare
 	//	this->Commodity = Commodity;
 	//}
 
-	void CargoDetails::setWeightKG(float weightKG)
+	void CargoDetails::SetWeightKG(float weightKG)
 	{
-		this->weightKG = weightKG;
+		this->m_WeightKG = weightKG;
 	}
 
-	void CargoDetails::pushValueToOzelliker(Vec3 stuff, int adet)
+	void CargoDetails::PushValueToDimensions(Vec3 stuff, int adet)
 	{
 		for (int i = 0; i < adet; i++)
 		{
-			Ozellikler.push_back(stuff);
+			m_Dimensions.push_back(stuff);
 		}
-		calcSpecific();
+		OnCalculate();
 	}
 
-	void CargoDetails::clearOzellikler()
+	void CargoDetails::ClearDimensions()
 	{
-		Ozellikler.clear();
+		m_Dimensions.clear();
 	}
 }

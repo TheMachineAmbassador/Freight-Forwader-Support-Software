@@ -1,25 +1,28 @@
 #include "TruckFreightCore.h"
 
-float TruckFreightCore::getLDM() const
+namespace ForwarderSupportWare
 {
-    return this->ldm;
-}
-
-void TruckFreightCore::setLDM(float ldmParam)
-{
-    this->ldm = ldmParam;
-}
-
-float TruckFreightCore::calculateLdm(const bool& isStackable) const
-{
-    float collector = 0;
-
-    for (auto& i : getOzelliker())
+    float TruckFreightCore::getLDM() const
     {
-        if (isStackable == false)
-            collector = collector + (((i.x * i.y) / 2.4f / 10000) / 2);
-        else
-            collector = collector + ((i.x * i.y) / 2.4f / 10000);
+        return this->ldm;
     }
-    return collector;
+
+    void TruckFreightCore::setLDM(float ldmParam)
+    {
+        this->ldm = ldmParam;
+    }
+
+    float TruckFreightCore::calculateLdm(const bool& isStackable) const
+    {
+        float collector = 0;
+
+        for (auto& i : GetDimensions())
+        {
+            if (isStackable == false)
+                collector = collector + (((i.x * i.y) / 2.4f / 10000) / 2);
+            else
+                collector = collector + ((i.x * i.y) / 2.4f / 10000);
+        }
+        return collector;
+    }
 }

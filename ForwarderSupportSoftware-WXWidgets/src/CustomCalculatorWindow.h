@@ -4,20 +4,21 @@
 #include <wx/wx.h>
 #include <wx/notebook.h>
 
-class CustomCalculatorWindow : public wxDialog {
-private:
-    wxTextCtrl* commodityPriceCtrl;
-    wxTextCtrl* freightCtrl;
-    wxButton* calculateBtn;
-    wxStaticText* mpfText;
-    wxStaticText* hmfText;
-    wxStaticText* totalFreightText;
+class CustomCalculatorWindow : public wxDialog 
+{
+    public:
+        CustomCalculatorWindow(wxWindow* parent);
+    private:
+        void OnCalculate(wxCommandEvent& event);
+    private:
+        wxStaticText* m_MPFText;
+        wxStaticText* m_HMFText;
+        wxStaticText* m_TotalFreightText;
+    
+        wxTextCtrl* m_CommodityPriceCtrl;
+        wxTextCtrl* m_FreightCtrl;
 
-public:
-    CustomCalculatorWindow(wxWindow* parent);
-
-private:
-    void OnCalculate(wxCommandEvent& event);
+        wxButton* m_CalculateBtn;
 };
 
-#endif
+#endif // CUSTOMCALCULATORWINDOW_H

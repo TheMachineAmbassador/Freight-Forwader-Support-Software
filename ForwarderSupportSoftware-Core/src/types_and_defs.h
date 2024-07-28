@@ -36,11 +36,10 @@ struct Vec3
         z *= other.z;
         return *this;
     }
-
-    Vec3& operator*= (const float& scalar) {
-        x *= scalar;
-        y *= scalar;
-        z *= scalar;
+    Vec3& operator*=(float value) {
+        x *= value;
+        y *= value;
+        z *= value;
         return *this;
     }
 
@@ -61,6 +60,17 @@ struct Vec3
         }
         return *this;
     }
+
+    bool operator<(const Vec3& other) const {
+        if (x != other.x) return x < other.x;
+        if (y != other.y) return y < other.y;
+        return z < other.z;
+    }
+
+    bool operator==(const Vec3& other) const {
+        return x == other.x && y == other.y && z == other.z;
+    }
+
 };
 
 Vec3 convertToMeters(Vec3& value, int8_t unit);

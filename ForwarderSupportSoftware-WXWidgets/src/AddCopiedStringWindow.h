@@ -7,18 +7,16 @@
 #include "AddCopiedString.h"
 
 
-class AddCopiedStringWindow : public wxDialog {
-private:
-    AddCopiedString add;
-
-public:
-    AddCopiedStringWindow(wxWindow* parent);
-    
-private:
-    wxTextCtrl* textCtrl;
-    wxTextCtrl* resultText;
-
-    void OnTextChanged(wxCommandEvent& event);
+class AddCopiedStringWindow : public wxDialog 
+{
+    public:
+        AddCopiedStringWindow(wxWindow* parent);
+    private:
+        void OnTextChanged(wxCommandEvent& event);
+    private:
+        wxTextCtrl* m_TextCtrl;
+        wxTextCtrl* m_ResultText;
+        AddCopiedString m_Add;
 };
 
 #endif // ADDCOPIEDSTRINGWINDOW

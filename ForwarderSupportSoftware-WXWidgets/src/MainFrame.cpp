@@ -51,7 +51,7 @@ MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title, 
     /////////////////////////////////////////////////////////////////////////////////////
     // Create an ImagePanel and add it to the frame
     #ifndef DEBUG
-        ImagePanel* imagePanel = new ImagePanel(this);
+        ImagePanel* imagePanel = new ImagePanel(this,"background.jpg");
         wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
         sizer->Add(imagePanel, 1, wxEXPAND | wxALL);
         SetSizer(sizer);

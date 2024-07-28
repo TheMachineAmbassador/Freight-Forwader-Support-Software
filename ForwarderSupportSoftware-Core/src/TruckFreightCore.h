@@ -3,30 +3,31 @@
 
 #include "CommonCargoDetails.h"
 
-class TruckFreightCore : public ForwarderSupportWare::CargoDetails
+namespace ForwarderSupportWare
 {
-private:
-	float ldm = 0;
-
-
-public:
-	bool isStackable = false;
-
-	float getLDM() const;
-
-	void calcSpecific() override
+	class TruckFreightCore : public CargoDetails
 	{
-		setLDM(calculateLdm(isStackable));
-	}
-	void Clear() override
-	{
-		clearOzellikler();
-		setLDM(0);
-		setWeightKG(0);
-	}
+	public:
+		float getLDM() const;
 
-	void setLDM(float volumeWeight);
-	float calculateLdm(const bool& isStackable) const;
-};
+		void OnCalculate() override
+		{
+			setLDM(calculateLdm(isStackable));
+		}
+		void Clear() override
+		{
+			ClearDimensions();
+			setLDM(0);
+			SetWeightKG(0);
+		}
 
+		void setLDM(float volumeWeight);
+		float calculateLdm(const bool& isStackable) const;
+	public:
+		bool isStackable = false;
+
+	private:
+		float ldm = 0;
+	};
+}
 #endif

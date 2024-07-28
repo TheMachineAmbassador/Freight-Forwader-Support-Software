@@ -13,27 +13,27 @@ namespace ForwarderSupportWare
 {
 	class AirCargoBase : public CargoDetails
 	{
-	private:
-		float chargableWeight = 0;
-		float chargableWeightHolder = 0;
-	public:
-		float getVolumeWeight() const;
+		public:
+			float getVolumeWeight() const;
 	
-		float getChargableWeight() const;
+			float getChargableWeight() const;
 
-		void volumeWeightCalc();
-		void setVolumeWeight(float volumeWeight);
+			void volumeWeightCalc();
+			void setVolumeWeight(float volumeWeight);
 		
-		void calcSpecific() override
-		{
-			volumeWeightCalc();
-		}
-		void Clear() override
-		{
-			clearOzellikler();
-			setVolumeWeight(0);
-			setWeightKG(0);
-		}
+			void OnCalculate() override
+			{
+				volumeWeightCalc();
+			}
+			void Clear() override
+			{
+				ClearDimensions();
+				setVolumeWeight(0);
+				SetWeightKG(0);
+			}
+		private:
+			float m_ChargableWeight = 0;
+			float m_ChargableWeightHolder = 0;
 	};
 }
 

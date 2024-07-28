@@ -10,30 +10,27 @@ namespace ForwarderSupportWare
 {
 	class CargoDetails
 	{
-		private:
-			//std::string Commodity = "";
-			int pieces = 0;
-			int sumPieces = 0;
-			float weightKG = 0;
-			std::vector<Vec3> Ozellikler;
-
-		protected:
-		
 		public:
 			//const std::string& getCommodity() const;
-			const int getPieces() const;
-			const float getWeightKG() const ;
-			const std::vector<Vec3> getOzelliker() const;
+			const int GetPieces() const;
+			const float GetWeightKG() const ;
+			const std::vector<Vec3> GetDimensions() const;
 
 			//void setCommodity(std::string Commodity);
-			void setWeightKG(float weightKG);
+			void SetWeightKG(float weightKG);
 		
-			void pushValueToOzelliker(Vec3 Stuff, int adet);
+			void PushValueToDimensions(Vec3 Stuff, int adet);
+			void ClearDimensions();
 
-			virtual void calcSpecific() {};
+			virtual void OnCalculate() {};
 			virtual void Clear() {};
 
-			void clearOzellikler();
+		private:
+			//std::string Commodity = "";
+			int m_Pieces = 0;
+			int m_SumOfPieces = 0;
+			float m_WeightKG = 0;
+			std::vector<Vec3> m_Dimensions;
 	};
 }
 

@@ -11,24 +11,19 @@
 
 class AddCopiedString
 {
-// Variables
-private:
-    bool updateResult = false;
+    public:
+        void addCopiedTexts();
+    private:
+        bool isOperator(char c);
+        bool isNumberOrExpression(const std::string& word);
+        double evaluateExpression(const std::string& expression);
+        double applyOperator(double a, double b, char op);	
+    public:
+        char m_InputBuffer[4096];
+        std::string m_ResultStr;
+    private:
+        bool m_UpdateResult = false;
 
-	
-public:
-    char inputBuffer[4096];
-
-    // Public member funcs
-    void addCopiedTexts();
-    std::string resultStr;
-
-// Parmaters, functions
-private:
-    bool isOperator(char c);
-    bool isNumberOrExpression(const std::string& word);
-    double evaluateExpression(const std::string& expression);
-    double applyOperator(double a, double b, char op);
 };
 
 #endif

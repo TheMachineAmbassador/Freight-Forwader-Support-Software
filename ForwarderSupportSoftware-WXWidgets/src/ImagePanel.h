@@ -2,20 +2,20 @@
 #define IMAGEPANEL_H
 
 #include <wx/wx.h>
-#include "background.xpm"  // Include the XPM file
 
-class ImagePanel : public wxPanel {
-public:
-    ImagePanel(wxFrame* parent);
+class ImagePanel : public wxPanel
+{
+    public:
+        ImagePanel(wxFrame* parent, const wxString& imagePath);
+    private:
+        void OnPaint(wxPaintEvent& event);
+        void OnSize(wxSizeEvent& event);
+        void RescaleImage(const wxSize& newSize);
 
-private:
-    wxBitmap resizedBitmap;
-    wxImage originalImage; // Store the original image
-    void OnPaint(wxPaintEvent& event);
-    void RescaleImage(const wxSize& newSize);
-    void OnSize(wxSizeEvent& event);
-
-    wxDECLARE_EVENT_TABLE();
+        wxDECLARE_EVENT_TABLE();
+    private:
+        wxBitmap m_ResizedBitmap;
+        wxImage m_OriginalImage; // Store the original image
 };
 
 #endif // IMAGEPANEL_H

@@ -14,7 +14,7 @@ namespace ForwarderSupportWare
 
     float SeaCargoBase::getWMValue()
     {
-        const float tonnage = getWeightKG() / 1000.0f;
+        const float tonnage = GetWeightKG() / 1000.0f;
         wmValue = tonnage <= getVolume() ? getVolume() : tonnage;
         return this->wmValue;
     }
@@ -23,7 +23,7 @@ namespace ForwarderSupportWare
 	{
 		float collector = 0;
 
-		for (auto& i : getOzelliker())
+		for (auto& i : GetDimensions())
 		{
 			collector = collector + (i.x * i.y * i.z);
 		}

@@ -79,7 +79,7 @@ double AddCopiedString::evaluateExpression(const std::string& expression) {
 
 void AddCopiedString::addCopiedTexts()
 {
-    std::string inputText(inputBuffer);
+    std::string inputText(m_InputBuffer);
     std::istringstream iss(inputText);
 
     double num;
@@ -150,7 +150,7 @@ void AddCopiedString::addCopiedTexts()
         }
     }
     result_ss << " = " << sum;
-    resultStr = result_ss.str();
+    m_ResultStr = result_ss.str();
 
 #if BETA_FULL_TEXT
     std::stringstream fullText_ss;
@@ -167,5 +167,5 @@ void AddCopiedString::addCopiedTexts()
 #endif
 
     // Reset the updateResult flag after updating the result
-    updateResult = false;
+    m_UpdateResult = false;
 }
