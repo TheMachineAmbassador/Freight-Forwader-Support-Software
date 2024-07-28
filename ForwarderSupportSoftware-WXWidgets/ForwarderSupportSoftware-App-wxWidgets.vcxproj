@@ -105,6 +105,7 @@
     <ClInclude Include="src\CustomCalculatorWindow.h" />
     <ClInclude Include="src\FreightCalculateWindow.h" />
     <ClInclude Include="src\MainFrame.h" />
+    <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ImagePanel.cpp" />
@@ -119,6 +120,9 @@
     <ProjectReference Include="..\ForwarderSupportSoftware-Core\ForwarderSupportSoftware-Core.vcxproj">
       <Project>{6FE86950-DB00-517A-A4AD-E0131085E513}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\background.xpm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

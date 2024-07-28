@@ -9,7 +9,7 @@
 #include "AirCargoBase.h"
 #include "TruckFreightCore.h"
 
-static const int ID_AlwaysOnTop = 10001; // Custom ID for the menu item
+static constexpr int ID_AlwaysOnTop = 10001; // Custom ID for the menu item
 
 class FreightCalculateWindow : public wxFrame
 {
@@ -34,7 +34,7 @@ class FreightCalculateWindow : public wxFrame
 
         enum option
         {
-            Deniz = 0, Hava, Kara, MAX
+            Sea = 0, Air, Land, MAX
         };    
 
         ForwarderSupportWare::CargoDetails* m_CommonFreight = &m_SeaFreight;

@@ -170,13 +170,13 @@ void FreightCalculateWindow::OnWeightTextChange(wxCommandEvent& event)
 
 void FreightCalculateWindow::OnCalculateButton(wxCommandEvent& event)
 {
-    int index = Deniz;
+    int index = Sea;
 
     Vec3 stuff{ GetTextCtrlValueAsFloat(m_LengthCtrl) ,GetTextCtrlValueAsFloat(m_WidthCtrl),GetTextCtrlValueAsFloat(m_HeightCtrl)};
     m_CommonFreight->SetWeightKG(GetTextCtrlValueAsFloat(m_WeightCtrl));
     
     if (m_FreightCmbBox->GetSelection() == -1)
-        index = Deniz;
+        index = Sea;
     else
         index = m_FreightCmbBox->GetSelection();
 
@@ -184,7 +184,7 @@ void FreightCalculateWindow::OnCalculateButton(wxCommandEvent& event)
 
     switch (index)
     {
-        case Deniz:
+        case Sea:
             selectedIndex = m_LengthCmbBox->GetSelection();
             convertToMeters(stuff.x, m_LengthCmbBox->GetSelection());
 
@@ -201,7 +201,7 @@ void FreightCalculateWindow::OnCalculateButton(wxCommandEvent& event)
             
             m_SeaFreight.setWeightLBS(m_CommonFreight->GetWeightKG());
             break;
-        case Hava:
+        case Air:
             selectedIndex = m_LengthCmbBox->GetSelection();
             convertToCentimeters(stuff.x, selectedIndex);
 
@@ -212,7 +212,7 @@ void FreightCalculateWindow::OnCalculateButton(wxCommandEvent& event)
             convertToCentimeters(stuff.z, selectedIndex);
 
             break;
-        case Kara:
+        case Land:
             if (m_StackableCheckbox->IsChecked())
                 m_LandFreight.isStackable = true;
             else
@@ -242,7 +242,7 @@ void FreightCalculateWindow::OnCalculateButton(wxCommandEvent& event)
     {
         Vec3 dot = i;
 
-        if (index == Deniz)
+        if (index == Sea)
             dot *= 100.0f;
 
         dimensionCount[dot]++;
@@ -267,7 +267,7 @@ void FreightCalculateWindow::OnCalculateButton(wxCommandEvent& event)
 
 wxString FreightCalculateWindow::OutputPanel()
 {
-    int index = Deniz;
+    int index = Sea;
 
     m_Weight = m_CommonFreight->GetWeightKG();
 
@@ -278,26 +278,26 @@ wxString FreightCalculateWindow::OutputPanel()
 
     if (m_FreightCmbBox->GetSelection() == -1)
     {
-        index = Deniz;
+        index = Sea;
     }
     else
         index = m_FreightCmbBox->GetSelection();
 
     switch (index)
     {
-    case Deniz:
+    case Sea:
         m_CommonFreight = &m_SeaFreight;
         m_FreightOutputText += wxString::Format("Volume (CBM): %.3f\n", m_SeaFreight.getVolume());
         m_FreightOutputText += wxString::Format("Weight (LBS/Pound): %.3f LBS\n", m_SeaFreight.getWeightLbs());
         m_FreightOutputText += wxString::Format("Volume (CBF): %.3f\n", m_SeaFreight.getVolumeCBF());
         m_FreightOutputText += wxString::Format("W/M: %.3f", m_SeaFreight.getWMValue());
         break;
-    case Hava:
+    case Air:
         m_CommonFreight = &m_AirFreight;
         m_FreightOutputText += wxString::Format("Volumetric weight: %.3f\n", m_AirFreight.getVolumeWeight());
         m_FreightOutputText += wxString::Format("Chargable weight: %.3f\n\n", m_AirFreight.getChargableWeight());
         break;
-    case Kara:
+    case Land:
         m_CommonFreight = &m_LandFreight;
         m_FreightOutputText += wxString::Format("LDM: %.3f \n\n\n", m_LandFreight.getLDM());
         break;
@@ -350,7 +350,7 @@ void FreightCalculateWindow::OnComboBoxChange(wxCommandEvent& event)
     int index = m_FreightCmbBox->GetSelection();
 
     // Show stacableCheckbox when Deniz or Hava is selected
-    if (index == Deniz || index == Kara) {
+    if (index == Sea || index == Land) {
         m_StackableCheckbox->Show();
     }
     else {

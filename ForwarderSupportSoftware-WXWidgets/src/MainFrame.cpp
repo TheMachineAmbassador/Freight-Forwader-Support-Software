@@ -6,13 +6,14 @@
 #include "ContainerTrackingWindow.h"
 #include "FreightCalculateWindow.h" 
 
+#include "version.h"
 
 MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title, wxDefaultPosition, wxSize(550, 500), wxMINIMIZE_BOX | wxSYSTEM_MENU | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN) {
     wxSize fixedSize = wxSize(550, 500);
     this->SetSize(fixedSize);
     this->SetMinSize(fixedSize);
     this->SetMaxSize(fixedSize);
-    
+
     ////////////////////// TOP BAR SECTION ////////////////////////////////////////////////
 
     // Topbar buttons
@@ -51,12 +52,19 @@ MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title, 
     /////////////////////////////////////////////////////////////////////////////////////
     // Create an ImagePanel and add it to the frame
     #ifndef DEBUG
-        ImagePanel* imagePanel = new ImagePanel(this,"background.jpg");
+        // Create an ImagePanel and add it to the frame
+        ImagePanel* imagePanel = new ImagePanel(this);
         wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
         sizer->Add(imagePanel, 1, wxEXPAND | wxALL);
         SetSizer(sizer);
     #endif // DEBUG
     ////////////////////////////////////////////////////////////////////////////////////
+
+    // STATUS BAR FOR SHOWING VERSION
+    wxString versionString = "Version: " + wxString(GetVersionString());
+    CreateStatusBar();
+    SetStatusText(versionString);
+    //////////////////////////////////
 
     AdjustFontForDPI(this);
 }
