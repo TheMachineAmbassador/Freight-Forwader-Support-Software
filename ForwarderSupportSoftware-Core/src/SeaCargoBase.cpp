@@ -25,7 +25,7 @@ namespace ForwarderSupportWare
 
 		for (auto& i : GetDimensions())
 		{
-			collector = collector + (i.x * i.y * i.z);
+			collector = collector + ( i.Count * (i.Dimension.x * i.Dimension.y * i.Dimension.z));
 		}
 
 		return collector;

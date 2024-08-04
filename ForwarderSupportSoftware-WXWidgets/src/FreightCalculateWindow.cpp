@@ -7,6 +7,8 @@
 
 #include <map>
 
+using namespace ForwarderSupportWare;
+
 FreightCalculateWindow::FreightCalculateWindow(wxWindow* parent) : wxFrame(parent, wxID_ANY, "Freight Calculation Window", wxDefaultPosition, wxSize(675 , 500),wxMINIMIZE_BOX | wxSYSTEM_MENU | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN | wxDEFAULT_FRAME_STYLE) {
     wxSize fixedSize = wxSize(675, 500);
     this->SetSize(fixedSize);
@@ -33,7 +35,8 @@ FreightCalculateWindow::FreightCalculateWindow(wxWindow* parent) : wxFrame(paren
     SetMenuBar(menuBar);
 
     
-    m_PanelText = new wxStaticText(this, wxID_ANY, OutputPanel());
+    OutputPanel();
+    m_PanelText = new wxStaticText(this, wxID_ANY, m_FreightOutputText);
 
     wxString choices[] = { "M", "CM", "MM","in" };
 
@@ -168,6 +171,16 @@ void FreightCalculateWindow::OnWeightTextChange(wxCommandEvent& event)
     UpdateOutput();
 }
 
+void FreightCalculateWindow::ChangeSidePanelText()
+{
+    wxString SidePanelText = "";
+    for (const auto& entry : m_CommonFreight->GetDimensions()) {
+        SidePanelText += wxString::Format("%d adet, %.2fx%.2fx%.2fcm\n", entry.Count, entry.Dimension.x, entry.Dimension.y, entry.Dimension.z);
+    }
+
+    m_ChildPanelText->SetValue(SidePanelText);
+}
+
 void FreightCalculateWindow::OnCalculateButton(wxCommandEvent& event)
 {
     int index = Sea;
@@ -235,27 +248,7 @@ void FreightCalculateWindow::OnCalculateButton(wxCommandEvent& event)
     
     m_CommonFreight->PushValueToDimensions(stuff, GetTextCtrlValueAsInt(m_PieceCtrl));
 
-    std::map<Vec3, int> dimensionCount;
-    wxString SidePanelText = "";
-
-    for (auto& i : m_CommonFreight->GetDimensions())
-    {
-        Vec3 dot = i;
-
-        if (index == Sea)
-            dot *= 100.0f;
-
-        dimensionCount[dot]++;
-    }
-
-    for (const auto& entry : dimensionCount) {
-        const Vec3& dim = entry.first;
-        int count = entry.second;
-        SidePanelText += wxString::Format("%d adet, %.2fx%.2fx%.2fcm\n", count, dim.x, dim.y, dim.z);
-    }
-
-    m_ChildPanelText->SetValue(SidePanelText);
-
+    ChangeSidePanelText();
 
     // Layout adjustment after showing or hiding controls
     Layout();
@@ -265,7 +258,7 @@ void FreightCalculateWindow::OnCalculateButton(wxCommandEvent& event)
     UpdateOutput();
 }
 
-wxString FreightCalculateWindow::OutputPanel()
+void FreightCalculateWindow::OutputPanel()
 {
     int index = Sea;
 
@@ -304,13 +297,12 @@ wxString FreightCalculateWindow::OutputPanel()
     default:
         break;
     }
-
-    return m_FreightOutputText;
 }
 
 void FreightCalculateWindow::UpdateOutput()
 {
-    m_PanelText->SetLabel(OutputPanel());
+    OutputPanel();
+    m_PanelText->SetLabel(m_FreightOutputText);
 }
 
 void FreightCalculateWindow::OnCopyButton(wxCommandEvent& event)
@@ -339,7 +331,7 @@ void FreightCalculateWindow::OnResetButton(wxCommandEvent& event)
 {
     m_CommonFreight->Clear();
     m_Weight = 0;
-
+    
     m_ChildPanelText->SetLabel("");
 
     UpdateOutput();
@@ -356,6 +348,12 @@ void FreightCalculateWindow::OnComboBoxChange(wxCommandEvent& event)
     else {
         m_StackableCheckbox->Hide();
     }
+
+    m_CommonFreight->Clear();
+    m_Weight = 0;
+
+    m_ChildPanelText->SetLabel("");
+
 
     // Layout adjustment after showing or hiding stacableCheckbox
     Layout();

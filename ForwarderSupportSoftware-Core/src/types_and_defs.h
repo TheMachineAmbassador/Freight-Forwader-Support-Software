@@ -73,6 +73,18 @@ struct Vec3
 
 };
 
+// Implement the comparison operator for std::map key
+struct Vec3Compare {
+    bool operator()(const Vec3& lhs, const Vec3& rhs) const {
+        return lhs.x < rhs.x || (lhs.x == rhs.x && lhs.y < rhs.y) || (lhs.x == rhs.x && lhs.y == rhs.y && lhs.z < rhs.z);
+    }
+};
+
+struct Vec2
+{
+    float x, y;
+};
+
 Vec3 convertToMeters(Vec3& value, int8_t unit);
 const void convertToMeters (float& value, int8_t unit);
 

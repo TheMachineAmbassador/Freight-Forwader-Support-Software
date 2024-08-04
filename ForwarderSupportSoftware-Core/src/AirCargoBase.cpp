@@ -18,7 +18,7 @@ namespace ForwarderSupportWare
 
         for (auto& i : GetDimensions())
         {
-            collector = collector + ((i.x * i.y * i.z) / 6000);
+            collector = collector + ( i.Count * ((i.Dimension.x * i.Dimension.y * i.Dimension.z) / 6000));
         }
         setVolumeWeight(collector);
     }

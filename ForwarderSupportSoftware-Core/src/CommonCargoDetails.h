@@ -5,16 +5,41 @@
 
 #include "types_and_defs.h"
 
-// TODO(Make commodity much usefull)
 namespace ForwarderSupportWare
 {
+	enum CargoType
+	{
+		Sea = 0, Air, Land, MAX
+	};
+
+	enum e_Packing
+	{
+		Pallet, Drum, Max
+	};
+
+	struct PalletPackingDefine
+	{
+		int Count;
+		Vec3 Dimension;
+	};
+
+	struct DrumPackingDefine
+	{
+		int Count;
+		Vec2 Dimension;
+	};
+
 	class CargoDetails
 	{
 		public:
+			static e_Packing type;
+
+			// TODO(Make commodity usefull)
 			//const std::string& getCommodity() const;
+
 			const int GetPieces() const;
 			const float GetWeightKG() const ;
-			const std::vector<Vec3> GetDimensions() const;
+			const std::vector<PalletPackingDefine>& GetDimensions() const;
 
 			//void setCommodity(std::string Commodity);
 			void SetWeightKG(float weightKG);
@@ -30,7 +55,7 @@ namespace ForwarderSupportWare
 			int m_Pieces = 0;
 			int m_SumOfPieces = 0;
 			float m_WeightKG = 0;
-			std::vector<Vec3> m_Dimensions;
+			std::vector<PalletPackingDefine> m_Dimensions;
 	};
 }
 

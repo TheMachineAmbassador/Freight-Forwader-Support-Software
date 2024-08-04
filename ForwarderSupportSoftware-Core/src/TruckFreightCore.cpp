@@ -19,9 +19,9 @@ namespace ForwarderSupportWare
         for (auto& i : GetDimensions())
         {
             if (isStackable == false)
-                collector = collector + (((i.x * i.y) / 2.4f / 10000) / 2);
+                collector = collector + ( i.Count * (((i.Dimension.x * i.Dimension.y) / 2.4f / 10000) / 2));
             else
-                collector = collector + ((i.x * i.y) / 2.4f / 10000);
+                collector = collector + ( i.Count * ((i.Dimension.x * i.Dimension.y) / 2.4f / 10000));
         }
         return collector;
     }

@@ -16,8 +16,9 @@ class FreightCalculateWindow : public wxFrame
     public:
         FreightCalculateWindow(wxWindow* parent);
     private:
-        wxString OutputPanel();
-    
+        void OutputPanel();
+        void ChangeSidePanelText();
+
         void OnCalculateButton(wxCommandEvent& event);
         void OnResetButton(wxCommandEvent& event);
         void OnCopyButton(wxCommandEvent& event);
@@ -31,11 +32,6 @@ class FreightCalculateWindow : public wxFrame
         ForwarderSupportWare::SeaCargoBase m_SeaFreight{};
         ForwarderSupportWare::AirCargoBase m_AirFreight{};
         ForwarderSupportWare::TruckFreightCore m_LandFreight{};
-
-        enum option
-        {
-            Sea = 0, Air, Land, MAX
-        };    
 
         ForwarderSupportWare::CargoDetails* m_CommonFreight = &m_SeaFreight;
 
