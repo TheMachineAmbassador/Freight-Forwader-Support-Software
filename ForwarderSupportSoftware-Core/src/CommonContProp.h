@@ -35,6 +35,7 @@ public:
 	virtual bool requestContainerData(std::string& ContainerNumber) { return false; };
 };
 
-extern bool runCurlProcess(std::string command, std::string& curlData);
+extern bool runCurlGetRequest(const std::string& url, std::string& responseData);
+extern bool runCurlPostRequest(const std::string& url, const std::string& postFields, std::string& responseData);
 
 #endif // COMMONCONTPROP_H

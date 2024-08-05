@@ -44,17 +44,21 @@ const std::string& MSCContainer::getPodEta() const
 bool MSCContainer::requestContainerData(std::string& ContainerNumber)
 {
 	std::string curlData;
-	std::string rq = "curl -X POST -H \"X-Requested-With:XMLHttpRequest\" -H \"Content-Type:application/json\" -d ";
-	rq += " \"{\\\"trackingNumber\\\":\\\" " + ContainerNumber + "\\\", \\\"trackingMode\\\": 0}\" https://www.msc.com/api/feature/tools/TrackingInfo";
+	std::string url = "https://www.msc.com/api/feature/tools/TrackingInfo";
 
+	// JSON payload as a string
+	std::string postFields = "{\"trackingNumber\":\"" + ContainerNumber + "\", \"trackingMode\": 0}";
 
-	runCurlProcess(rq, curlData);
-	try
-	{
+	// Run the curl request
+	if (!runCurlPostRequest(url, postFields, curlData)) {
+		return false;
+	}
+
+	try {
 		jsonData = nlohmann::json::parse(curlData);
 	}
-	catch (const std::exception& e)
-	{
+	catch (const std::exception& e) {
+		assert ("JSON Parsing failed: " << e.what());
 		return false;
 	}
 
@@ -62,4 +66,5 @@ bool MSCContainer::requestContainerData(std::string& ContainerNumber)
 		return false;
 
 	return true;
+
 }

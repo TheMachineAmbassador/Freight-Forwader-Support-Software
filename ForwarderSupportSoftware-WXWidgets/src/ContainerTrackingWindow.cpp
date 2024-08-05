@@ -38,17 +38,16 @@ ContainerTrackingWindow::ContainerTrackingWindow(wxWindow* parent) : wxDialog(pa
 // wtf is the current item switcher ? 
 void ContainerTrackingWindow::onButtonClick(wxCommandEvent& event)
 {
-    wxString current_item = m_CarrierComboBox->GetValue();
+    Carrier current_item = static_cast<Carrier>(m_CarrierComboBox->GetSelection());
     wxString containerNumber = m_ContainerNumberCtrl->GetValue();
 
     // Assuming 'common' is an instance of a class that handles tracking information
     // Replace with your actual logic to get container data
-    current_item = "Cosco";
-    if (current_item == "Cosco")
+    if (current_item == Carrier::Cosco)
     {
         m_Carrier = &m_Cosco;
     }
-    else if (current_item == "MSC")
+    else if (current_item == Carrier::MSC)
     {
         m_Carrier = &m_MSC;
     }

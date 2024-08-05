@@ -4,6 +4,12 @@
 #include <cstdint>
 #include <array>
 
+
+struct Vec2
+{
+    float x, y;
+};
+
 struct Vec3
 {
     float x, y, z;
@@ -79,11 +85,6 @@ struct Vec3Compare {
     bool operator()(const Vec3& lhs, const Vec3& rhs) const {
         return lhs.x < rhs.x || (lhs.x == rhs.x && lhs.y < rhs.y) || (lhs.x == rhs.x && lhs.y == rhs.y && lhs.z < rhs.z);
     }
-};
-
-struct Vec2
-{
-    float x, y;
 };
 
 struct Cargo

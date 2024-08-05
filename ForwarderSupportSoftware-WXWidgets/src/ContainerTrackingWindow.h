@@ -13,6 +13,11 @@ class ContainerTrackingWindow : public wxDialog
     public:
         ContainerTrackingWindow(wxWindow* parent);
     private:
+        enum class Carrier
+        {
+            Cosco,MSC,Max
+        };
+
         void onButtonClick(wxCommandEvent& event);
     private:
         wxTextCtrl* m_ContainerNumberCtrl;

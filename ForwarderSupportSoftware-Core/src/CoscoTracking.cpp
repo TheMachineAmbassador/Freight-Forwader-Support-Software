@@ -24,15 +24,14 @@ const std::string& CoscoTracking::getTimeOfIssue() const
 bool CoscoTracking::requestContainerData(std::string& ContainerNumber)
 {
 	std::string curlData;
-	std::string command = "curl -X GET https://elines.coscoshipping.com/ebtracking/public/containers/";
-	command += ContainerNumber;
+	std::string command = "https://elines.coscoshipping.com/ebtracking/public/containers/" + ContainerNumber;
 
 	std::string curlEtaData;
-	std::string curlEtaCommand = "curl -X GET https://elines.coscoshipping.com/ebtracking/public/container/eta/";
-	curlEtaCommand += ContainerNumber;
+	std::string curlEtaCommand = "https://elines.coscoshipping.com/ebtracking/public/container/eta/" + ContainerNumber;
 
-	runCurlProcess(command, curlData);
-	runCurlProcess(curlEtaCommand, curlEtaData);
+	if (!runCurlGetRequest(command, curlData) || !runCurlGetRequest(curlEtaCommand, curlEtaData)) {
+		return false;
+	}
 
 	try
 	{
