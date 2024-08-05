@@ -5,6 +5,7 @@
 
 #include <string>
 
+
 class CoscoTracking : public CommonContProp
 {
 private:
@@ -18,4 +19,4 @@ public:
 	bool requestContainerData(std::string& ContainerNumber) override;
 };
 
-#endif
+#endif // COSCOTRACKING_H

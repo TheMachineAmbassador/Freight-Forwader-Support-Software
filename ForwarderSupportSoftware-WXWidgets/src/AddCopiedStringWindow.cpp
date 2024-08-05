@@ -5,7 +5,7 @@ AddCopiedStringWindow::AddCopiedStringWindow(wxWindow* parent)
 
     // Create fields
     m_TextCtrl = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxSize(0, 100), wxTE_MULTILINE);
-    m_ResultText = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE | wxTE_READONLY  | wxBORDER_NONE);
+    m_ResultText = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE | wxTE_READONLY | wxBORDER_NONE);
 
     // Set Vertical Box Sizer for positioning elements
     wxBoxSizer* vbox = new wxBoxSizer(wxVERTICAL);

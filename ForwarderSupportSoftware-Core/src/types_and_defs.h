@@ -2,6 +2,7 @@
 #define TYPES_AND_DEFS_H
 
 #include <cstdint>
+#include <array>
 
 struct Vec3
 {
@@ -85,10 +86,24 @@ struct Vec2
     float x, y;
 };
 
+struct Cargo
+{
+    enum  measurement_t
+    {
+        M, CM, MM, INCH, MAX
+    } measurement;
+
+    float dimension;
+};
+
 Vec3 convertToMeters(Vec3& value, int8_t unit);
 const void convertToMeters (float& value, int8_t unit);
+const void convertToMeters(Cargo* values, int size);
+
 
 Vec3 convertToCentimeters(Vec3& value, int8_t unit);
-const void convertToCentimeters(float& value, int8_t unit);
+
+void convertToCentimeters(float& value, int8_t unit);
+void convertToCentimeters(Cargo* values, int size);
 
 #endif // TYPES_AND_DEFS_H

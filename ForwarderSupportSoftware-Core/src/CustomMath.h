@@ -9,4 +9,4 @@ constexpr float MPF_MIN = 25.0f;
 const float calcMPFValue(const float& TotalCustomValue);
 float calcHMFValue(const float& TotalCustomValue);
 
-#endif
+#endif // CUSTOMMATH_H

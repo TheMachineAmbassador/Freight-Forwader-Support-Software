@@ -6,8 +6,7 @@
 
 #include "AddCopiedString.h"
 
-
-class AddCopiedStringWindow : public wxDialog 
+class AddCopiedStringWindow : public wxDialog
 {
     public:
         AddCopiedStringWindow(wxWindow* parent);

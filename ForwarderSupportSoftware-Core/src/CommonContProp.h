@@ -5,6 +5,7 @@
 
 #include "nlohmann/json.hpp"
 
+
 class CommonContProp
 {
 private:
@@ -17,7 +18,7 @@ private:
 protected:
 	// TODO(This s need to be simplifield)
 	nlohmann::json jsonData;
-	
+
 	void setContainerNumber(std::string cntNumber);
 	void setStatusDescription(std::string statusDescription);
 	void setLocation(std::string location);

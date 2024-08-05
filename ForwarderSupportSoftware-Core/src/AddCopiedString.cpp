@@ -2,6 +2,7 @@
 
 // TODO make this shitty codes much clear !!!
 
+
 bool AddCopiedString::isOperator(char c) {
     return c == '+' || c == '-' || c == '*' || c == '/';
 }

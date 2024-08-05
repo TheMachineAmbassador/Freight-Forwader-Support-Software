@@ -5,58 +5,70 @@
 
 #include "types_and_defs.h"
 
-namespace ForwarderSupportWare
+enum class CargoType : int8_t
 {
-	enum CargoType
-	{
-		Sea = 0, Air, Land, MAX
-	};
+	Sea = 0,
+	Air,
+	Land,
+	MaxTypes
+};
 
-	enum e_Packing
-	{
-		Pallet, Drum, Max
-	};
+enum class PackingType : int8_t
+{
+	Pallet,
+	Drum,
+	MaxPackingTypes
+};
 
-	struct PalletPackingDefine
-	{
-		int Count;
-		Vec3 Dimension;
-	};
+struct PalletPacking
+{
+	int Count;
+	bool IsStackable;
+	Vec3 Dimension;
+};
 
-	struct DrumPackingDefine
-	{
-		int Count;
-		Vec2 Dimension;
-	};
+struct DrumPacking
+{
+	int Count;
+	Vec2 Dimension;
+};
 
-	class CargoDetails
-	{
-		public:
-			static e_Packing type;
 
-			// TODO(Make commodity usefull)
-			//const std::string& getCommodity() const;
+class CargoDetails
+{
+	public:
+		struct DimensionInfo {
+			int Count;
+			bool Stackable;
+		};
 
-			const int GetPieces() const;
-			const float GetWeightKG() const ;
-			const std::vector<PalletPackingDefine>& GetDimensions() const;
+		static inline CargoType type;
 
-			//void setCommodity(std::string Commodity);
-			void SetWeightKG(float weightKG);
-		
-			void PushValueToDimensions(Vec3 Stuff, int adet);
-			void ClearDimensions();
+		// TODO(Make commodity usefull)
+		//const std::string& getCommodity() const;
 
-			virtual void OnCalculate() {};
-			virtual void Clear() {};
+		const int GetPieces() const;
+		const float GetWeightKG() const ;
+		const std::vector<PalletPacking>& GetDimensions() const;
 
-		private:
-			//std::string Commodity = "";
-			int m_Pieces = 0;
-			int m_SumOfPieces = 0;
-			float m_WeightKG = 0;
-			std::vector<PalletPackingDefine> m_Dimensions;
-	};
-}
+		//void setCommodity(std::string Commodity);
+		void SetWeightKG(float weightKG);
+
+		void PushValueToDimensions(Vec3 Stuff, int adet,bool stackable);
+		void ClearDimensions();
+
+		virtual void OnCalculate() {};
+		virtual void Clear() {};
+
+	private:
+		//std::string Commodity = "";
+		int m_Pieces = 0;
+		int m_SumOfPieces = 0;
+		float m_WeightKG = 0;
+		float m_Tonnage = 0;
+
+		std::vector<PalletPacking> m_Dimensions;
+};
+
 
 #endif // COMMONCARGODETAILS_H

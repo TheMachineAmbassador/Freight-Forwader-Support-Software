@@ -4,7 +4,7 @@
 #include <wx/wx.h>
 #include <wx/notebook.h>
 
-class CustomCalculatorWindow : public wxDialog 
+class CustomCalculatorWindow : public wxDialog
 {
     public:
         CustomCalculatorWindow(wxWindow* parent);
@@ -14,7 +14,7 @@ class CustomCalculatorWindow : public wxDialog
         wxStaticText* m_MPFText;
         wxStaticText* m_HMFText;
         wxStaticText* m_TotalFreightText;
-    
+
         wxTextCtrl* m_CommodityPriceCtrl;
         wxTextCtrl* m_FreightCtrl;
 

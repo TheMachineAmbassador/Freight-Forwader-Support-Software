@@ -1,5 +1,6 @@
 #include "CommonContProp.h"
 
+
 const std::string& CommonContProp::getContainerNumber() const
 {
 	return this->cntNumber;

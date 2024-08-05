@@ -9,57 +9,60 @@
 #include "AirCargoBase.h"
 #include "TruckFreightCore.h"
 
-static constexpr int ID_AlwaysOnTop = 10001; // Custom ID for the menu item
+inline constexpr int ID_AlwaysOnTop = 10001; // Custom ID for the menu item
 
 class FreightCalculateWindow : public wxFrame
 {
-    public:
-        FreightCalculateWindow(wxWindow* parent);
-    private:
-        void OutputPanel();
-        void ChangeSidePanelText();
+public:
+    FreightCalculateWindow(wxWindow* parent);
+private:
+    void OutputPanel();
+    void ChangeSidePanelText();
 
-        void OnCalculateButton(wxCommandEvent& event);
-        void OnResetButton(wxCommandEvent& event);
-        void OnCopyButton(wxCommandEvent& event);
-        void OnComboBoxChange(wxCommandEvent& event);
-        void OnWeightTextChange(wxCommandEvent& event);
-        void OnToggleAlwaysOnTop(wxCommandEvent& event);
+    void OnCalculateButton(wxCommandEvent& event);
+    void OnResetButton(wxCommandEvent& event);
+    void OnCopyButton(wxCommandEvent& event);
+    void OnComboBoxChange(wxCommandEvent& event);
+    void OnWeightTextChange(wxCommandEvent& event);
+    void OnToggleAlwaysOnTop(wxCommandEvent& event);
 
-        void UpdateOutput();
-    private:
+    void UpdateOutput();
 
-        ForwarderSupportWare::SeaCargoBase m_SeaFreight{};
-        ForwarderSupportWare::AirCargoBase m_AirFreight{};
-        ForwarderSupportWare::TruckFreightCore m_LandFreight{};
+    const wxString receiveStacable(bool stackable) const;
 
-        ForwarderSupportWare::CargoDetails* m_CommonFreight = &m_SeaFreight;
+private:   
+    SeaCargoBase m_SeaFreight{};
+    AirCargoBase m_AirFreight{};
+    TruckFreightCore m_LandFreight{};
 
-        wxString m_FreightOutputText = {};
+    CargoDetails* m_CommonFreight = &m_SeaFreight;
 
-        wxTextCtrl* m_PieceCtrl;
-        wxTextCtrl* m_LengthCtrl;
-        wxTextCtrl* m_WidthCtrl;
-        wxTextCtrl* m_HeightCtrl;
-        wxTextCtrl* m_WeightCtrl;
+    wxString m_FreightOutputText = {};
 
-        wxButton* m_CalculateBtn;
-        wxButton* m_ResetBtn;
-        wxButton* m_CopyOutputBtn;
+    wxTextCtrl* m_PieceCtrl;
+    wxTextCtrl* m_LengthCtrl;
+    wxTextCtrl* m_WidthCtrl;
+    wxTextCtrl* m_HeightCtrl;
+    wxTextCtrl* m_WeightCtrl;
 
-        wxStaticText* m_PanelText;
+    wxButton* m_CalculateBtn;
+    wxButton* m_ResetBtn;
+    wxButton* m_CopyOutputBtn;
 
-        wxComboBox* m_WidthCmbBox;
-        wxComboBox* m_HeightCmbBox;
-        wxComboBox* m_LengthCmbBox;
-        wxComboBox* m_FreightCmbBox = new wxComboBox(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);;
-    
-        wxCheckBox* m_StackableCheckbox;
-        wxBoxSizer* m_VBox;
+    wxStaticText* m_PanelText;
 
-        wxTextCtrl* m_ChildPanelText;
+    wxComboBox* m_WidthCmbBox;
+    wxComboBox* m_HeightCmbBox;
+    wxComboBox* m_LengthCmbBox;
+    wxComboBox* m_FreightCmbBox = new wxComboBox(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);;
 
-        float m_Weight;
+    wxCheckBox* m_StackableCheckbox;
+    wxBoxSizer* m_VBox;
+
+    wxTextCtrl* m_ChildPanelText;
+
+    CargoType m_CargoTypeSelection = CargoType::Sea;
+
 };
 
 #endif // FREIGHTCALCULATEWINDOW_H

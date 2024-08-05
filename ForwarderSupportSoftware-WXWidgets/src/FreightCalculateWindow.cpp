@@ -1,15 +1,14 @@
 #include "FreightCalculateWindow.h"
 
+#include <array>
+
 #include "wx/clipbrd.h"
 #include <wx/statline.h>
 
 #include "Common.h"
 
-#include <map>
 
-using namespace ForwarderSupportWare;
-
-FreightCalculateWindow::FreightCalculateWindow(wxWindow* parent) : wxFrame(parent, wxID_ANY, "Freight Calculation Window", wxDefaultPosition, wxSize(675 , 500),wxMINIMIZE_BOX | wxSYSTEM_MENU | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN | wxDEFAULT_FRAME_STYLE) {
+FreightCalculateWindow::FreightCalculateWindow(wxWindow* parent) : wxFrame(parent, wxID_ANY, "Freight Calculation Window", wxDefaultPosition, wxSize(675, 500), wxMINIMIZE_BOX | wxSYSTEM_MENU | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN | wxDEFAULT_FRAME_STYLE) {
     wxSize fixedSize = wxSize(675, 500);
     this->SetSize(fixedSize);
     this->SetMinSize(fixedSize);
@@ -18,7 +17,7 @@ FreightCalculateWindow::FreightCalculateWindow(wxWindow* parent) : wxFrame(paren
 
     wxMenuBar* menuBar = new wxMenuBar;
     wxMenu* optionsMenu = new wxMenu;
-    
+
     // Add a checkable item for always-on-top feature
     optionsMenu->AppendCheckItem(ID_AlwaysOnTop, "Make window always on top");
 
@@ -34,7 +33,7 @@ FreightCalculateWindow::FreightCalculateWindow(wxWindow* parent) : wxFrame(paren
     menuBar->Append(helpMenu, "&Help");
     SetMenuBar(menuBar);
 
-    
+
     OutputPanel();
     m_PanelText = new wxStaticText(this, wxID_ANY, m_FreightOutputText);
 
@@ -79,7 +78,7 @@ FreightCalculateWindow::FreightCalculateWindow(wxWindow* parent) : wxFrame(paren
     // Set the default selection
     m_FreightCmbBox->SetSelection(0); // Select "Deniz" as the default item
 
-    hbox66->Add(m_FreightCmbBox, 1, wxEXPAND | wxALL,5);
+    hbox66->Add(m_FreightCmbBox, 1, wxEXPAND | wxALL, 5);
 
     // Bind the event handler to EVT_COMBOBOX
     m_FreightCmbBox->Bind(wxEVT_COMBOBOX, &FreightCalculateWindow::OnComboBoxChange, this);
@@ -90,7 +89,7 @@ FreightCalculateWindow::FreightCalculateWindow(wxWindow* parent) : wxFrame(paren
     hbox1->Add(new wxStaticText(this, wxID_ANY, "Piece:"), 0, wxEXPAND | wxALL, 5);
     hbox1->Add(m_PieceCtrl, 1, wxEXPAND);
     m_VBox->Add(hbox1, 0, wxEXPAND | wxALL, 5);
-    
+
     // For "Uzunluk" and its control
     wxBoxSizer* hbox2 = new wxBoxSizer(wxHORIZONTAL);
     hbox2->Add(new wxStaticText(this, wxID_ANY, "Length:   "), 0, wxEXPAND | wxALL, 5);
@@ -123,7 +122,7 @@ FreightCalculateWindow::FreightCalculateWindow(wxWindow* parent) : wxFrame(paren
     hbox->Add(m_CalculateBtn, 0, wxRight, 10);
     hbox->Add(m_ResetBtn, 1);
     hbox->Add(m_CopyOutputBtn, 2);
-    
+
     // Add the horizontal box sizer to the vertical box sizer, below the button
     m_VBox->Add(hbox, 0, wxEXPAND | wxALL, 10);
 
@@ -144,11 +143,11 @@ FreightCalculateWindow::FreightCalculateWindow(wxWindow* parent) : wxFrame(paren
     this->SetSizer(MainHBox);
 
     // Bind event
-    m_CalculateBtn->Bind(   wxEVT_BUTTON,   &FreightCalculateWindow::OnCalculateButton,     this);
-    m_ResetBtn->Bind(       wxEVT_BUTTON,   &FreightCalculateWindow::OnResetButton,         this);
-    m_CopyOutputBtn->Bind(  wxEVT_BUTTON,   &FreightCalculateWindow::OnCopyButton,          this);
+    m_CalculateBtn->Bind(wxEVT_BUTTON, &FreightCalculateWindow::OnCalculateButton, this);
+    m_ResetBtn->Bind(wxEVT_BUTTON, &FreightCalculateWindow::OnResetButton, this);
+    m_CopyOutputBtn->Bind(wxEVT_BUTTON, &FreightCalculateWindow::OnCopyButton, this);
 
-    m_WeightCtrl->Bind(     wxEVT_TEXT,     &FreightCalculateWindow::OnWeightTextChange,    this);
+    m_WeightCtrl->Bind(wxEVT_TEXT, &FreightCalculateWindow::OnWeightTextChange, this);
 
 }
 
@@ -175,7 +174,22 @@ void FreightCalculateWindow::ChangeSidePanelText()
 {
     wxString SidePanelText = "";
     for (const auto& entry : m_CommonFreight->GetDimensions()) {
-        SidePanelText += wxString::Format("%d adet, %.2fx%.2fx%.2fcm\n", entry.Count, entry.Dimension.x, entry.Dimension.y, entry.Dimension.z);
+        SidePanelText += wxString::Format("%d adet, %.2fx%.2fx%.2fcm, %s \n", entry.Count, entry.Dimension.x, entry.Dimension.y, entry.Dimension.z, receiveStacable(entry.IsStackable));
+    }
+
+    switch (m_CargoTypeSelection)
+    {
+    case CargoType::Sea:
+        SidePanelText += wxString::Format("\n\n\nToplam: %d Paket / %.2f CBM / %.2f KG", m_CommonFreight->GetPieces(), m_SeaFreight.getVolume(), m_CommonFreight->GetWeightKG());
+        break;
+    case CargoType::Air:
+        SidePanelText += wxString::Format("\n\n\nToplam: %d Paket / %.2f Chargable Weight / %.2f KG\n", m_CommonFreight->GetPieces(), m_AirFreight.getChargableWeight(), m_CommonFreight->GetWeightKG());
+        break;
+    case CargoType::Land:
+        SidePanelText += wxString::Format("\n\n\nToplam: %d Paket / %.2f LDM / %.2f KG\n", m_CommonFreight->GetPieces(), m_LandFreight.getLDM(), m_CommonFreight->GetWeightKG());
+        break;
+    default:
+        break;
     }
 
     m_ChildPanelText->SetValue(SidePanelText);
@@ -183,70 +197,41 @@ void FreightCalculateWindow::ChangeSidePanelText()
 
 void FreightCalculateWindow::OnCalculateButton(wxCommandEvent& event)
 {
-    int index = Sea;
+    std::array<Cargo, 3> stuff{};
 
-    Vec3 stuff{ GetTextCtrlValueAsFloat(m_LengthCtrl) ,GetTextCtrlValueAsFloat(m_WidthCtrl),GetTextCtrlValueAsFloat(m_HeightCtrl)};
-    m_CommonFreight->SetWeightKG(GetTextCtrlValueAsFloat(m_WeightCtrl));
+    stuff[0] = { 
+        static_cast<Cargo::measurement_t>(m_LengthCmbBox->GetSelection()),
+        GetTextCtrlValueAsFloat(m_LengthCtrl) 
+    };
     
-    if (m_FreightCmbBox->GetSelection() == -1)
-        index = Sea;
-    else
-        index = m_FreightCmbBox->GetSelection();
+    stuff[1] = { 
+        static_cast<Cargo::measurement_t>(m_WidthCmbBox->GetSelection()),
+        GetTextCtrlValueAsFloat(m_WidthCtrl) 
+    };
+    
+    stuff[2] = { 
+        static_cast<Cargo::measurement_t>(m_HeightCmbBox->GetSelection()),
+        GetTextCtrlValueAsFloat(m_HeightCtrl) 
+    };
 
-    int selectedIndex = m_WidthCmbBox->GetSelection();
+    m_CommonFreight->SetWeightKG(GetTextCtrlValueAsFloat(m_WeightCtrl));
 
-    switch (index)
+    switch (m_CargoTypeSelection)
     {
-        case Sea:
-            selectedIndex = m_LengthCmbBox->GetSelection();
-            convertToMeters(stuff.x, m_LengthCmbBox->GetSelection());
-
-            selectedIndex = m_WidthCmbBox->GetSelection();
-            convertToMeters(stuff.y, selectedIndex);
-
-            if (m_StackableCheckbox->IsChecked())
-                stuff.z = 2.65f;
-            else 
-            {
-                selectedIndex = m_HeightCmbBox->GetSelection();
-                convertToMeters(stuff.z, selectedIndex);
-            }
-            
-            m_SeaFreight.setWeightLBS(m_CommonFreight->GetWeightKG());
-            break;
-        case Air:
-            selectedIndex = m_LengthCmbBox->GetSelection();
-            convertToCentimeters(stuff.x, selectedIndex);
-
-            selectedIndex = m_WidthCmbBox->GetSelection();
-            convertToCentimeters(stuff.y, selectedIndex);
-
-            selectedIndex = m_HeightCmbBox->GetSelection();
-            convertToCentimeters(stuff.z, selectedIndex);
-
-            break;
-        case Land:
-            if (m_StackableCheckbox->IsChecked())
-                m_LandFreight.isStackable = true;
-            else
-                m_LandFreight.isStackable = false;
-
-            selectedIndex = m_LengthCmbBox->GetSelection();
-            convertToCentimeters(stuff.x, selectedIndex);
-
-            selectedIndex = m_WidthCmbBox->GetSelection();
-            convertToCentimeters(stuff.y, selectedIndex);
-
-            selectedIndex = m_HeightCmbBox->GetSelection();
-            convertToCentimeters(stuff.z, selectedIndex);
-
-            break;
+    case CargoType::Sea:
+        convertToMeters(stuff.data(), stuff.size());
+        m_SeaFreight.setWeightLBS(m_CommonFreight->GetWeightKG());
+        break;
+    case CargoType::Air:
+    case CargoType::Land:
+        convertToCentimeters(stuff.data(), stuff.size());
+        break;
     default:
         assert("I hope no one arrive it here");
         break;
     }
-    
-    m_CommonFreight->PushValueToDimensions(stuff, GetTextCtrlValueAsInt(m_PieceCtrl));
+
+    m_CommonFreight->PushValueToDimensions({ stuff[0].dimension,stuff[1].dimension, stuff[2].dimension }, GetTextCtrlValueAsInt(m_PieceCtrl),m_StackableCheckbox->IsChecked());
 
     ChangeSidePanelText();
 
@@ -260,37 +245,27 @@ void FreightCalculateWindow::OnCalculateButton(wxCommandEvent& event)
 
 void FreightCalculateWindow::OutputPanel()
 {
-    int index = Sea;
+    const float Weight = m_CommonFreight->GetWeightKG();
+    const float tonnage = Weight / 1000.0f;
 
-    m_Weight = m_CommonFreight->GetWeightKG();
+    m_FreightOutputText = wxString::Format("Pieces: %d\n", m_CommonFreight->GetPieces());
+    m_FreightOutputText += wxString::Format("Weight: %.3f KG / %.3f Ton\n", Weight, tonnage);
 
-    const float tonnage = m_Weight / 1000.0f;
-
-    m_FreightOutputText =  wxString::Format("Pieces: %d\n", m_CommonFreight->GetPieces());
-    m_FreightOutputText += wxString::Format("Weight: %.3f KG / %.3f Ton\n", m_CommonFreight->GetWeightKG(), tonnage);
-
-    if (m_FreightCmbBox->GetSelection() == -1)
+    switch (m_CargoTypeSelection)
     {
-        index = Sea;
-    }
-    else
-        index = m_FreightCmbBox->GetSelection();
-
-    switch (index)
-    {
-    case Sea:
+    case CargoType::Sea:
         m_CommonFreight = &m_SeaFreight;
         m_FreightOutputText += wxString::Format("Volume (CBM): %.3f\n", m_SeaFreight.getVolume());
         m_FreightOutputText += wxString::Format("Weight (LBS/Pound): %.3f LBS\n", m_SeaFreight.getWeightLbs());
         m_FreightOutputText += wxString::Format("Volume (CBF): %.3f\n", m_SeaFreight.getVolumeCBF());
         m_FreightOutputText += wxString::Format("W/M: %.3f", m_SeaFreight.getWMValue());
         break;
-    case Air:
+    case CargoType::Air:
         m_CommonFreight = &m_AirFreight;
         m_FreightOutputText += wxString::Format("Volumetric weight: %.3f\n", m_AirFreight.getVolumeWeight());
         m_FreightOutputText += wxString::Format("Chargable weight: %.3f\n\n", m_AirFreight.getChargableWeight());
         break;
-    case Land:
+    case CargoType::Land:
         m_CommonFreight = &m_LandFreight;
         m_FreightOutputText += wxString::Format("LDM: %.3f \n\n\n", m_LandFreight.getLDM());
         break;
@@ -303,6 +278,11 @@ void FreightCalculateWindow::UpdateOutput()
 {
     OutputPanel();
     m_PanelText->SetLabel(m_FreightOutputText);
+}
+
+const wxString FreightCalculateWindow::receiveStacable(bool stackable) const
+{
+    return !stackable ? "Ýstiflenebilir" : "Ýstiflenemez";
 }
 
 void FreightCalculateWindow::OnCopyButton(wxCommandEvent& event)
@@ -330,8 +310,6 @@ void FreightCalculateWindow::OnCopyButton(wxCommandEvent& event)
 void FreightCalculateWindow::OnResetButton(wxCommandEvent& event)
 {
     m_CommonFreight->Clear();
-    m_Weight = 0;
-    
     m_ChildPanelText->SetLabel("");
 
     UpdateOutput();
@@ -339,21 +317,31 @@ void FreightCalculateWindow::OnResetButton(wxCommandEvent& event)
 
 void FreightCalculateWindow::OnComboBoxChange(wxCommandEvent& event)
 {
-    int index = m_FreightCmbBox->GetSelection();
+    if (m_FreightCmbBox->GetSelection() == -1)
+    {
+        m_CargoTypeSelection = CargoType::Sea;
+    }
+    else
+        m_CargoTypeSelection = static_cast<CargoType>(m_FreightCmbBox->GetSelection());
 
     // Show stacableCheckbox when Deniz or Hava is selected
-    if (index == Sea || index == Land) {
+    switch (m_CargoTypeSelection)
+    {
+    case CargoType::Sea:
+    case CargoType::Land:
         m_StackableCheckbox->Show();
-    }
-    else {
+        break;
+    case CargoType::Air:
         m_StackableCheckbox->Hide();
+        break;
+    default: break;
     }
+
+    CargoDetails::type = m_CargoTypeSelection;
 
     m_CommonFreight->Clear();
-    m_Weight = 0;
 
     m_ChildPanelText->SetLabel("");
-
 
     // Layout adjustment after showing or hiding stacableCheckbox
     Layout();

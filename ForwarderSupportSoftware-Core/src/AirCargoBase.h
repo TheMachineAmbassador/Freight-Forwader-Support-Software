@@ -9,32 +9,30 @@
 
 #include "CommonCargoDetails.h"
 
-namespace ForwarderSupportWare
+class AirCargoBase : public CargoDetails
 {
-	class AirCargoBase : public CargoDetails
-	{
-		public:
-			float getVolumeWeight() const;
+	public:
+		float getVolumeWeight() const;
 	
-			float getChargableWeight() const;
+		float getChargableWeight() const;
 
-			void volumeWeightCalc();
-			void setVolumeWeight(float volumeWeight);
+		void volumeWeightCalc();
+		void setVolumeWeight(float volumeWeight);
 		
-			void OnCalculate() override
-			{
-				volumeWeightCalc();
-			}
-			void Clear() override
-			{
-				ClearDimensions();
-				setVolumeWeight(0);
-				SetWeightKG(0);
-			}
-		private:
-			float m_ChargableWeight = 0;
-			float m_ChargableWeightHolder = 0;
-	};
-}
+		void OnCalculate() override
+		{
+			volumeWeightCalc();
+		}
+		void Clear() override
+		{
+			ClearDimensions();
+			setVolumeWeight(0);
+			SetWeightKG(0);
+		}
+	private:
+		float m_ChargableWeight = 0;
+		float m_ChargableWeightHolder = 0;
+};
+
 
 #endif

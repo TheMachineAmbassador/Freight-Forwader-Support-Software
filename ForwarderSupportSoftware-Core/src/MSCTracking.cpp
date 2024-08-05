@@ -5,7 +5,6 @@ const std::string& MSCContainer::getContainerNumber() const
 	return jsonData["Data"]["BillOfLadings"][0]["ContainersInfo"][0]["ContainerNumber"];
 }
 
-
 const std::string& MSCContainer::getStatusDescription() const
 {
 	auto& containers = jsonData["Data"]["BillOfLadings"][0]["ContainersInfo"];
@@ -44,11 +43,11 @@ const std::string& MSCContainer::getPodEta() const
 
 bool MSCContainer::requestContainerData(std::string& ContainerNumber)
 {
-    std::string curlData;
-    std::string rq = "curl -X POST -H \"X-Requested-With:XMLHttpRequest\" -H \"Content-Type:application/json\" -d ";
+	std::string curlData;
+	std::string rq = "curl -X POST -H \"X-Requested-With:XMLHttpRequest\" -H \"Content-Type:application/json\" -d ";
 	rq += " \"{\\\"trackingNumber\\\":\\\" " + ContainerNumber + "\\\", \\\"trackingMode\\\": 0}\" https://www.msc.com/api/feature/tools/TrackingInfo";
-    
-	
+
+
 	runCurlProcess(rq, curlData);
 	try
 	{
@@ -58,9 +57,9 @@ bool MSCContainer::requestContainerData(std::string& ContainerNumber)
 	{
 		return false;
 	}
-    
+
 	if (jsonData["IsSuccess"] == false)
 		return false;
 
-    return true;
+	return true;
 }

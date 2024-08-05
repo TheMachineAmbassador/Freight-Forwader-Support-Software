@@ -19,6 +19,20 @@ const void convertToMeters(float& value, int8_t unit) {
     }
 }
 
+const void convertToMeters(Cargo* values, int size)
+{
+    for (int i = 0; i < size; i++)
+    {
+        switch (values[i].measurement) {
+            case 0: values[i].dimension *= 1.0f; break;     // meters
+            case 1: values[i].dimension *= 0.01f; break;    // centimeters
+            case 2: values[i].dimension *= 0.001f; break;   // millimeters
+            case 3: values[i].dimension *= 0.0254f; break;  // inches
+        }
+    }
+}
+
+
 Vec3 convertToCentimeters(Vec3& value, int8_t unit) {
     switch (unit) {
     case 0: // meters
@@ -33,7 +47,8 @@ Vec3 convertToCentimeters(Vec3& value, int8_t unit) {
         return value;
     }
 }
-const void convertToCentimeters(float& value, int8_t unit) {
+
+void convertToCentimeters(float& value, int8_t unit) {
     switch (unit) {
     case 0: // meters
         value *= 100.0f; break;
@@ -45,5 +60,30 @@ const void convertToCentimeters(float& value, int8_t unit) {
         value *= 2.54f; break;
     default:
         value; break;
+    }
+}
+
+void convertToCentimeters(Cargo* values, int size) {
+    for (int i = 0;i<size;i++)
+    {
+        switch (values[i].measurement) {
+        case Cargo::measurement_t::M: // meters
+            values[i].dimension *= 100.0f;
+            break;
+        case Cargo::measurement_t::CM: // centimeters
+            values[i].dimension;
+
+            break;
+        case Cargo::measurement_t::MM: // mm
+            values[i].dimension /= 10.0f;
+            break;
+        case Cargo::measurement_t::INCH: // inches
+            values[i].dimension *= 2.54f;
+            break;
+        default:
+            values[i].dimension;
+
+            break;
+        }
     }
 }
