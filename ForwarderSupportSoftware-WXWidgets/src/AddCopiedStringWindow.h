@@ -15,6 +15,7 @@ class AddCopiedStringWindow : public wxDialog
     private:
         wxTextCtrl* m_TextCtrl;
         wxTextCtrl* m_ResultText;
+
         AddCopiedString m_Add;
 };
 

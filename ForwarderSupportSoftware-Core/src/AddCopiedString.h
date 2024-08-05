@@ -19,7 +19,7 @@ private:
     double evaluateExpression(const std::string& expression);
     double applyOperator(double a, double b, char op);
 public:
-    char m_InputBuffer[4096];
+    char m_InputBuffer[2048];
     std::string m_ResultStr;
 private:
     bool m_UpdateResult = false;

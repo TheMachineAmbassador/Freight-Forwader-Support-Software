@@ -5,7 +5,6 @@
 
 #include <string>
 
-
 class CoscoTracking : public CommonContProp
 {
 private:

@@ -1,4 +1,5 @@
 #include "AddCopiedString.h"
+#include <iomanip>
 
 // TODO make this shitty codes much clear !!!
 
@@ -142,6 +143,7 @@ void AddCopiedString::addCopiedTexts()
     }
 
     std::stringstream result_ss;
+    result_ss << std::fixed << std::setprecision(2);;  // Force fixed-point notation
 
     for (size_t i = 0; i < numbers.size(); ++i) {
         result_ss << numbers[i];
