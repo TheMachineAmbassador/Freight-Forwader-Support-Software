@@ -4,7 +4,8 @@ ContainerTrackingWindow::ContainerTrackingWindow(wxWindow* parent) : wxDialog(pa
     // ComboBox setup
     wxString choices[] = { "Cosco", "MSC", "Maersk" };
     m_CarrierComboBox = new wxComboBox(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 3, choices, wxCB_READONLY);
-    
+    m_CarrierComboBox->SetSelection(0);
+
     // Input text setup
     m_ContainerNumberCtrl = new wxTextCtrl(this, wxID_ANY);
     m_TrackButton = new wxButton(this, wxID_ANY, "Track");
@@ -38,6 +39,9 @@ ContainerTrackingWindow::ContainerTrackingWindow(wxWindow* parent) : wxDialog(pa
 // wtf is the current item switcher ? 
 void ContainerTrackingWindow::onButtonClick(wxCommandEvent& event)
 {
+    if (m_ContainerNumberCtrl->IsEmpty())
+        return;
+
     Carrier current_item = static_cast<Carrier>(m_CarrierComboBox->GetSelection());
     wxString containerNumber = m_ContainerNumberCtrl->GetValue();
 
